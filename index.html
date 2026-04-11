@@ -231,8 +231,32 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 .map-pane{position:relative;min-height:400px}
 #map-el{position:absolute;inset:0;min-height:400px}
 .map-pane.pane.on{display:block;position:relative;height:calc(100vh - 56px - 44px - 38px);min-height:300px}
+.map-waypoints{
+  position:absolute;bottom:0;left:0;right:0;
+  display:flex;gap:6px;padding:10px 12px 12px;
+  overflow-x:auto;z-index:10;
+  background:linear-gradient(transparent,rgba(0,0,0,.4));
+  -webkit-overflow-scrolling:touch;
+}
+.map-waypoints::-webkit-scrollbar{display:none}
+.mwp-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 11px 5px 6px;border-radius:20px;
+  border:1.5px solid rgba(255,255,255,.5);cursor:pointer;
+  font-family:inherit;background:rgba(255,255,255,.9);
+  font-size:11px;font-weight:500;white-space:nowrap;
+  transition:all .15s;flex-shrink:0;color:var(--text);
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.mwp-btn:hover{background:#fff;transform:translateY(-2px);box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.mwp-btn.on{background:var(--text);color:#fff;border-color:var(--text)}
+.mwp-num{
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;
+}
 .map-legend{
-  position:absolute;bottom:16px;right:16px;
+  position:absolute;bottom:56px;right:16px;
   background:var(--bg);border:1px solid var(--border);
   border-radius:10px;padding:10px 14px;
   z-index:10;font-size:11px;line-height:2;
@@ -634,7 +658,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">공항 전용 밴 (왕복)</div><div class="ov-rs-sub">KKday / Klook 예약 필요</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">하마무라 (3일차 점심)</div><div class="ov-rs-sub">4/15 12:30 · 타베로그 예약 필요</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 075-212-3581</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">나머지 3인 여행자 보험</div><div class="ov-rs-sub">아버지 · 어머니 · 여동생</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">4인 가족 여행자 보험</div><div class="ov-rs-sub">아버지 · 어머니 · 여동생</div></div></div>
         </div>
 
       </div>
@@ -673,6 +697,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
     <!-- 지도 -->
     <div class="pane map-pane" id="pane-map">
       <div id="map-el"></div>
+      <div id="map-waypoints" class="map-waypoints"></div>
       <div class="map-legend">
         <b>범례</b>
         <div><span class="ldot" style="background:#c94070"></span>식사</div>
@@ -720,7 +745,7 @@ const DAYS=[
    outfit:[{i:"👔",t:"얇은 긴팔 + 가디건 or 바람막이"},{i:"👟",t:"편한 워킹화 (평지 산책)"},{i:"☂️",t:"접이식 우산 지참"},{i:"⚠️",t:"저녁 13°C — 겉옷 필수",w:1}],
    gmaps:"https://www.google.com/maps/dir/Gimpo+International+Airport/Kansai+International+Airport/Arashiyama+Yoshimura+Kyoto/Togetsukyo+Bridge/Hanaikada+Ryokan+Arashiyama",
    items:[
-    {lat:37.5665,lng:126.9780,time:"06:00",type:"move",name:"집 출발",note:"인천 → 김포공항 이동. 택시 or 대중교통",tags:["이동"]},
+    {lat:37.4536,lng:126.8958,time:"06:00",type:"move",name:"집 출발",note:"서울시 금천구 시흥동 → 김포공항 이동. 택시 or 대중교통",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"07:15",type:"move",name:"김포공항 도착 & 체크인",note:"국제선 3층 대한항공 카운터. 탑승 2시간 전 도착 권장",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"07:30",type:"move",name:"출국 수속 & 탑승구 이동",note:"출국심사 → 면세구역 → 탑승구 이동",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"09:15",type:"move",name:"KE2117 탑승 출발",note:"김포 → 간사이 직항 1시간 40분",tags:["이동"]},
@@ -729,6 +754,7 @@ const DAYS=[
     {lat:35.0136,lng:135.6773,time:"13:00",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
+    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 하마무라 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 준세이 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"]},
     {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키",note:"객실 또는 개별실",tags:["저녁","포함"]},
    ],
    meals:[
@@ -867,6 +893,7 @@ function renderMap(day){
   if(!window.gmap)return;
   clearMap();
   const coords=[],seen=new Set();let idx=1;
+  const wpItems=[];
   day.items.forEach(item=>{
     const k=item.lat+','+item.lng;
     if(!seen.has(k)){
@@ -881,9 +908,28 @@ function renderMap(day){
       m.addListener('click',()=>{
         gInfo.setContent(`<div style="font-family:'Noto Sans KR',sans-serif;padding:3px 5px"><b style="font-size:13px">${item.name}</b><br><span style="color:#888;font-size:11px">${item.time}${item.note?' · '+item.note:''}</span></div>`);
         gInfo.open(window.gmap,m);
+        document.querySelectorAll('.mwp-btn').forEach(b=>b.classList.remove('on'));
+        const wb=document.querySelector(`.mwp-btn[data-idx="${idx-1}"]`);
+        if(wb){wb.classList.add('on');wb.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}
       });
+      wpItems.push({n:idx,item,marker:m,col});
       gMarkers.push(m);idx++;
     }
+  });
+  // waypoint buttons
+  const wp=document.getElementById('map-waypoints');
+  wp.innerHTML='';
+  wpItems.forEach(({n,item,marker,col})=>{
+    const btn=document.createElement('button');
+    btn.className='mwp-btn';
+    btn.dataset.idx=n;
+    btn.innerHTML=`<span class="mwp-num" style="background:${col}">${n}</span>${item.time} ${item.name}`;
+    btn.onclick=()=>{
+      window.gmap.panTo(marker.getPosition());
+      window.gmap.setZoom(16);
+      google.maps.event.trigger(marker,'click');
+    };
+    wp.appendChild(btn);
   });
   if(coords.length>1){
     gPoly=new google.maps.Polyline({
