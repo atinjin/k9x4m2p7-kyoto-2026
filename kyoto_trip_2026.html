@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 교토 가족여행 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans KR',sans-serif;background:#f9f4f6;color:#2d1b2e}
+.app{display:flex;flex-direction:column;height:100vh}
+.topbar{background:#fff;border-bottom:1px solid #e8d5dc;padding:0 16px;display:flex;align-items:center;gap:10px;height:50px;flex-shrink:0;z-index:1000}
+.logo{font-size:14px;font-weight:700;white-space:nowrap}.logo span{color:#d4537e}
+.nav-tabs{display:flex;gap:3px;margin-left:8px}
+.nav-btn{padding:5px 14px;border-radius:20px;border:1px solid #e8d5dc;background:#fff;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;color:#7a6b7b;font-family:inherit;transition:all .15s}
+.nav-btn.active{background:#2d1b2e;border-color:#2d1b2e;color:#fff}
+.sep{width:1px;height:24px;background:#e8d5dc;margin:0 4px}
+.day-tabs{display:flex;gap:3px;overflow-x:auto;flex:1}
+.day-tabs::-webkit-scrollbar{display:none}
+.tab-btn{padding:5px 11px;border-radius:20px;border:1px solid #e8d5dc;background:#fff;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;color:#7a6b7b;font-family:inherit;transition:all .15s}
+.tab-btn.active{background:#d4537e;border-color:#d4537e;color:#fff}
+.tab-btn:hover:not(.active){background:#fbeaf0;border-color:#f4c0d1;color:#72243e}
+.page{display:none;flex:1;overflow:hidden;flex-direction:column}
+.page.active{display:flex}
+
+/* SCHEDULE */
+.split-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden;position:relative}
+.schedule-panel{overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;background:#fff}
+.schedule-inner{flex:1;overflow-y:auto;display:flex;min-height:0}
+.schedule-inner::-webkit-scrollbar{width:4px}
+.schedule-inner::-webkit-scrollbar-thumb{background:#e8d5dc;border-radius:2px}
+.drag-handle{height:8px;background:#f0e8ec;border-top:1px solid #e8d5dc;border-bottom:1px solid #e8d5dc;cursor:row-resize;display:flex;align-items:center;justify-content:center;flex-shrink:0;user-select:none;transition:background .15s;z-index:10}
+.drag-handle:hover,.drag-handle.dragging{background:#f4c0d1}
+.handle-dots{display:flex;gap:3px}
+.handle-dots span{width:20px;height:2px;background:#c9a8b5;border-radius:2px}
+.map-panel{position:relative;flex:1;min-height:0}
+#map{position:absolute;top:0;left:0;width:100%;height:100%}
+
+.day-sidebar{width:280px;flex-shrink:0;border-right:1px solid #e8d5dc;overflow-y:auto;background:#fff}
+.day-sidebar::-webkit-scrollbar{width:4px}
+.day-sidebar::-webkit-scrollbar-thumb{background:#e8d5dc;border-radius:2px}
+.timeline-panel{flex:1;overflow-y:auto;background:#fff}
+.timeline-panel::-webkit-scrollbar{width:4px}
+.timeline-panel::-webkit-scrollbar-thumb{background:#e8d5dc;border-radius:2px}
+.day-hd{padding:12px 14px 8px;border-bottom:1px solid #f0e6ea;position:sticky;top:0;background:#fff;z-index:10}
+.day-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:5px}
+.day-title-main{font-size:15px;font-weight:700}
+.day-sub{font-size:11px;color:#9a8b9c;margin-top:2px}
+.gmap-link{display:flex;align-items:center;gap:5px;margin-top:7px;padding:6px 10px;background:#f9f4f6;border:1px solid #e8d5dc;border-radius:8px;text-decoration:none;color:#2d1b2e;font-size:11px;font-weight:500;transition:all .15s}
+.gmap-link:hover{background:#fbeaf0;border-color:#f4c0d1}
+.weather-row{padding:7px 14px;display:flex;align-items:center;gap:10px;background:#f9f4f6;border-bottom:1px solid #f0e6ea;font-size:12px}
+.outfit-section{padding:10px 14px;border-bottom:1px solid #f0e6ea}
+.outfit-title{font-size:10px;font-weight:700;color:#9a8b9c;letter-spacing:.7px;text-transform:uppercase;margin-bottom:6px}
+.outfit-item{display:flex;align-items:flex-start;gap:7px;font-size:11px;margin-bottom:4px}
+.outfit-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.outfit-text{color:#4a3b4c;line-height:1.4}
+.outfit-warn{color:#993556;font-weight:600}
+.tl{padding:8px 14px}
+.tl-row{display:flex;gap:8px}
+.tl-time{font-size:10px;color:#9a8b9c;font-weight:500;width:34px;flex-shrink:0;text-align:right;padding-top:3px}
+.tl-mid{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;z-index:1}
+.tl-seg{width:2px;flex:1;background:#f0e6ea;margin-top:3px;min-height:12px}
+.tl-body{flex:1;padding-bottom:10px}
+.tl-name{font-size:13px;font-weight:600;line-height:1.4}
+.tl-name a{color:inherit;text-decoration:none;border-bottom:1px dashed #d4537e}
+.tl-name a:hover{color:#d4537e}
+.tl-note{font-size:11px;color:#9a8b9c;margin-top:2px;line-height:1.5}
+.tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.tag{padding:2px 6px;border-radius:8px;font-size:10px;font-weight:600}
+.t-meal{background:#fbeaf0;color:#72243e}.t-sight{background:#e6f1fb;color:#0c447c}
+.t-hotel{background:#eaf3de;color:#27500a}.t-move{background:#f1efe8;color:#5f5e5a}
+.t-ok{background:#eaf3de;color:#27500a}.t-req{background:#faeeda;color:#633806}
+.sec-div{padding:5px 14px;font-size:10px;font-weight:700;color:#9a8b9c;letter-spacing:.8px;text-transform:uppercase;background:#f9f4f6;border-top:1px solid #f0e6ea;border-bottom:1px solid #f0e6ea}
+.meal-row{display:flex;gap:8px;padding:6px 14px;border-bottom:1px solid #f9f4f6;font-size:12px}
+.meal-type{font-size:10px;font-weight:700;color:#9a8b9c;width:26px;flex-shrink:0;padding-top:1px}
+.meal-name{font-weight:600}
+.meal-name a{color:#2d1b2e;text-decoration:none;border-bottom:1px dashed #d4537e}
+.meal-name a:hover{color:#d4537e}
+.meal-menu{color:#9a8b9c;font-size:11px;margin-top:1px}
+.meal-st{display:inline-block;margin-top:3px;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:600}
+.legend{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.96);border:1px solid #e8d5dc;border-radius:10px;padding:8px 12px;z-index:500;font-size:11px;line-height:1.9;pointer-events:none}
+.legend-title{font-weight:700;margin-bottom:3px;font-size:12px}
+.ldot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.ratio-badge{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.9);border:1px solid #e8d5dc;border-radius:8px;padding:4px 10px;font-size:11px;color:#9a8b9c;z-index:500;pointer-events:none}
+
+/* RESTAURANT PAGE */
+.rest-page{flex:1;overflow-y:auto;background:#f9f4f6;padding:20px}
+.rest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+.rest-card{background:#fff;border:1px solid #e8d5dc;border-radius:14px;overflow:hidden}
+.rest-card-head{padding:14px 16px 10px;border-bottom:1px solid #f0e6ea}
+.rest-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.rest-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#fff}
+.rest-name{font-size:15px;font-weight:700;line-height:1.3}
+.rest-name-en{font-size:11px;color:#9a8b9c;margin-top:2px}
+.rest-badges{display:flex;gap:5px;flex-wrap:wrap}
+.rest-body{padding:12px 16px}
+.rest-row{display:flex;gap:8px;margin-bottom:8px;font-size:12px}
+.rest-label{font-size:10px;font-weight:700;color:#9a8b9c;width:40px;flex-shrink:0;padding-top:1px}
+.rest-val{flex:1;color:#2d1b2e;line-height:1.5}
+.rest-val a{color:#d4537e;text-decoration:none;font-weight:500}
+.rest-val a:hover{text-decoration:underline}
+.rest-menu-pills{display:flex;gap:5px;flex-wrap:wrap}
+.menu-pill{padding:3px 9px;background:#fbeaf0;color:#72243e;border-radius:12px;font-size:11px;font-weight:600}
+.menu-pill.star{background:#d4537e;color:#fff}
+.rest-tip{background:#f9f4f6;border-left:3px solid #d4537e;border-radius:0 6px 6px 0;padding:7px 10px;font-size:11px;color:#4a3b4c;line-height:1.6;margin-top:2px}
+.rest-gmap{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:5px 12px;background:#f9f4f6;border:1px solid #e8d5dc;border-radius:8px;text-decoration:none;color:#2d1b2e;font-size:11px;font-weight:500}
+.rest-gmap:hover{background:#fbeaf0;border-color:#f4c0d1}
+.reserve-ok{color:#27500a;background:#eaf3de;padding:1px 7px;border-radius:6px;font-size:10px;font-weight:700}
+.reserve-req{color:#633806;background:#faeeda;padding:1px 7px;border-radius:6px;font-size:10px;font-weight:700}
+.reserve-no{color:#5f5e5a;background:#f1efe8;padding:1px 7px;border-radius:6px;font-size:10px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">🌸 교토 <span>가족여행</span> 2026</div>
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="switchPage('schedule')">일정표</button>
+      <button class="nav-btn" onclick="switchPage('restaurant')">식당 안내</button>
+    </div>
+    <div class="sep"></div>
+    <div class="day-tabs" id="dayTabs"></div>
+  </div>
+
+  <div class="page active" id="page-schedule">
+    <div class="split-wrap" id="splitWrap">
+      <div class="schedule-panel" id="schedulePanel">
+        <div class="schedule-inner">
+          <div class="day-sidebar" id="daySidebar"></div>
+          <div class="timeline-panel" id="timelinePanel"></div>
+        </div>
+      </div>
+      <div class="drag-handle" id="dragHandle">
+        <div class="handle-dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="map-panel" id="mapPanel">
+        <div id="map"></div>
+        <div class="legend">
+          <div class="legend-title">범례</div>
+          <div><span class="ldot" style="background:#d4537e"></span>식사</div>
+          <div><span class="ldot" style="background:#378add"></span>관광</div>
+          <div><span class="ldot" style="background:#639922"></span>숙소</div>
+          <div><span class="ldot" style="background:#888780"></span>이동</div>
+        </div>
+        <div class="ratio-badge" id="ratioBadge"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-restaurant">
+    <div class="rest-page">
+      <div class="rest-grid" id="restGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const RESTAURANTS=[
+  {id:"yoshimura",name:"아라시야마 요시무라",nameEn:"Arashiyama Yoshimura",color:"#d4537e",day:"1일차 4/13 (월)",meal:"점심",menu:["메밀 소바★","덴푸라 소바","자루소바"],tip:"도게츠교 2층 창가 자리 요청. 오픈 직후 방문 시 웨이팅 없음. 뷰 최고.",tel:"075-863-5700",reserve:"예약 불필요",reserveCls:"reserve-no",reserveHow:"현장 방문. 오픈(11:00) 직후 입장 권장.",gmaps:"https://www.google.com/maps/search/Arashiyama+Yoshimura+Kyoto"},
+  {id:"shoraian",name:"쇼라이안",nameEn:"Shoraian",color:"#378add",day:"2일차 4/14 (화)",meal:"점심",menu:["쇼후 코스 7,000엔★","쇼라이 코스 5,500엔","유두부","아게다시 두부","두부 그라탱"],tip:"KKday 예약번호 MJG072344. 13:30 입장. 15분 이상 지각 시 취소. 쇼후 코스에 와규 미니 스테이크 + 유두부 무제한 포함.",tel:"075-861-0123",reserve:"예약 완료 ✓",reserveCls:"reserve-ok",reserveHow:"KKday 예약 완료 (MJG072344). 모바일 바우처 제시.",gmaps:"https://www.google.com/maps/search/Shoraian+Arashiyama+Kyoto"},
+  {id:"kijurou",name:"기쥬로",nameEn:"Kijurou",color:"#378add",day:"2일차 4/14 (화)",meal:"저녁",menu:["와규 리브로인 스테이크★","교토 와규 세트"],tip:"아라시야마 료칸 도보 5분. 와규는 미디엄으로 주문.",tel:"050-5487-3279",reserve:"예약 권장",reserveCls:"reserve-req",reserveHow:"전화: 050-5487-3279 / 구글맵 예약 버튼",gmaps:"https://www.google.com/maps/search/Kijurou+Arashiyama+Kyoto"},
+  {id:"hamamura",name:"하마무라",nameEn:"Hamamura",color:"#639922",day:"3일차 4/15 (수)",meal:"점심",menu:["와규 스키야키 코스★","샤부샤부 코스"],tip:"교토역 이세탄 내. 직원이 직접 구워줌. 달콤한 간장 육수에 생달걀 찍어 먹는 방식.",tel:"075-211-7255",reserve:"예약 필요",reserveCls:"reserve-req",reserveHow:"타베로그(tabelog.com) 또는 전화 075-211-7255",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
+  {id:"katsukura",name:"가츠구라 산조",nameEn:"Katsukura Sanjo",color:"#639922",day:"3일차 4/15 (수)",meal:"저녁",menu:["히레카츠 정식★","로스카츠 정식"],tip:"참깨를 직접 갈아서 소스 만드는 게 포인트! 히레카츠(안심)가 제일 부드러움. 밥·된장국·양배추 무제한.",tel:"075-212-3581",reserve:"예약 필요",reserveCls:"reserve-req",reserveHow:"타베로그 또는 전화: 075-212-3581 / 4/15(수) 18:30 / 4명",gmaps:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
+  {id:"junsei",name:"준세이",nameEn:"Junsei",color:"#ba7517",day:"4일차 4/16 (목)",meal:"점심",menu:["유두부 히토토오리 세트★","두부 코스"],tip:"에도 시대 건물에서 정원 바라보며 먹는 두부. 난젠지 도보 1분. 목요일 11:00~14:30 영업.",tel:"075-761-2311",reserve:"예약 권장",reserveCls:"reserve-req",reserveHow:"전화: 075-761-2311 / 4/16(목) 13:30 / 4명",gmaps:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
+  {id:"tominojo",name:"토미노조",nameEn:"Tominojo",color:"#ba7517",day:"4일차 4/16 (목)",meal:"저녁",menu:["교토 와규 샤부샤부★","와규 스키야키"],tip:"고기 무게 직접 보여주며 투명하게 서비스. 얇게 썬 와규를 육수에 살짝 담가 먹는 방식.",tel:"080-3759-1757",reserve:"예약 권장",reserveCls:"reserve-req",reserveHow:"전화: 080-3759-1757 / 4/16(목) 18:00 / 4명",gmaps:"https://www.google.com/maps/search/Tominojo+Kyoto+Wagyu"},
+  {id:"gyukatsu",name:"규카츠 교토 카츠규",nameEn:"Gyukatsu Kyoto Katsugyu",color:"#0f6e56",day:"5일차 4/17 (금)",meal:"점심",menu:["프리미엄 와규 규카츠★","교토 와규 규카츠"],tip:"교토역 도보 2분. 돌판에 직접 구워 먹는 방식. 오픈(11:00) 직후 방문 권장.",tel:"-",reserve:"예약 불필요",reserveCls:"reserve-no",reserveHow:"현장 방문. 오픈(11:00) 직후 권장.",gmaps:"https://www.google.com/maps/search/Gyukatsu+Kyoto+Katsugyu+Kyoto+Station"},
+];
+
+const DAYS=[
+  {n:1,date:"4/13 (월)",title:"도착 & 아라시야마",color:"#d4537e",
+   weather:{icon:"☁️",temp:"19°C / 13°C",desc:"흐림 · 일교차 6°C"},
+   outfit:[{icon:"👔",text:"얇은 긴팔 + 가디건 or 바람막이 필수"},{icon:"👟",text:"편한 워킹화 (평지 산책 위주)"},{icon:"☂️",text:"접이식 우산 지참 (흐림 예보)"},{icon:"⚠️",text:"저녁 기온 13°C — 겉옷 필수",warn:true}],
+   gmaps:"https://www.google.com/maps/dir/Kansai+International+Airport/Arashiyama+Yoshimura+Kyoto/Togetsukyo+Bridge+Kyoto/Hanaikada+Ryokan+Arashiyama",
+   items:[
+    {lat:34.4347,lng:135.244,time:"10:55",type:"move",name:"간사이 공항 도착",note:"전용 밴 탑승 → 아라시야마 약 90분",tags:["이동","예약완료"]},
+    {lat:35.0136,lng:135.6773,time:"13:00",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],restId:"yoshimura"},
+    {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
+    {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
+    {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키 코스",note:"객실 또는 개별실",tags:["저녁","료칸포함"]},
+   ],
+   meals:[{type:"조식",name:"기내식",menu:"",st:""},{type:"점심",name:"아라시야마 요시무라",menu:"소바",st:"ok",stText:"예약불필요",restId:"yoshimura",gmaps:"https://www.google.com/maps/search/Arashiyama+Yoshimura+Kyoto"},{type:"저녁",name:"료칸 가이세키",menu:"코스 요리",st:"ok",stText:"포함"}]},
+  {n:2,date:"4/14 (화)",title:"금각사 & 아라시야마",color:"#378add",
+   weather:{icon:"⛅",temp:"23°C / 12°C",desc:"맑음 · 일교차 11°C"},
+   outfit:[{icon:"👕",text:"반팔 + 얇은 긴팔 레이어링"},{icon:"🧥",text:"가디건 or 얇은 재킷 (아침·저녁 필수)"},{icon:"👟",text:"편한 워킹화 — 금각사·대나무숲 이동"},{icon:"🧴",text:"선크림 SPF50+ (맑은 날씨)"},{icon:"⚠️",text:"아침 기온 12°C — 아침 외출 시 겉옷",warn:true}],
+   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Kinkakuji+Temple+Kyoto/Arashiyama+Bamboo+Forest/Tenryuji+Temple+Kyoto/Shoraian+Arashiyama/Kijurou+Arashiyama",
+   items:[
+    {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","료칸포함"]},
+    {lat:35.0394,lng:135.7292,time:"09:30",type:"sight",name:"금각사 (킨카쿠지)",note:"오픈 직후 방문. 입장료 500엔",tags:["관광"]},
+    {lat:35.0168,lng:135.6713,time:"11:30",type:"sight",name:"대나무숲 — 인력거 투어",note:"에비스야. 앉아서 이동 ✓",tags:["관광","예약권장"]},
+    {lat:35.0158,lng:135.6738,time:"12:00",type:"sight",name:"텐류지 정원",note:"완전 평지 ✓ 입장료 500엔",tags:["관광"]},
+    {lat:35.0144,lng:135.6701,time:"13:00",type:"meal",name:"쇼라이안",note:"두부 가이세키 — KKday MJG072344",tags:["점심","예약완료"],restId:"shoraian"},
+    {lat:35.0113,lng:135.6771,time:"14:30",type:"hotel",name:"료칸 복귀 — 온천 & 낮잠",note:"",tags:["휴식"]},
+    {lat:35.0204,lng:135.6805,time:"18:30",type:"meal",name:"기쥬로",note:"와규 스테이크 / 도보 5분",tags:["저녁","예약권장"],restId:"kijurou"},
+   ],
+   meals:[{type:"조식",name:"료칸 조식",menu:"일본식 조식",st:"ok",stText:"포함"},{type:"점심",name:"쇼라이안",menu:"두부 가이세키 프리미엄",st:"ok",stText:"예약완료 ✓",restId:"shoraian",gmaps:"https://www.google.com/maps/search/Shoraian+Arashiyama"},{type:"저녁",name:"기쥬로",menu:"와규 스테이크",st:"req",stText:"예약권장",restId:"kijurou",gmaps:"https://www.google.com/maps/search/Kijurou+Arashiyama"}]},
+  {n:3,date:"4/15 (수)",title:"기요미즈데라 & 호텔 이동",color:"#639922",
+   weather:{icon:"☀️",temp:"27°C / 13°C",desc:"맑고 따뜻 · 일교차 14°C"},
+   outfit:[{icon:"👕",text:"반팔 또는 얇은 긴팔 (낮 최고 27°C)"},{icon:"🧥",text:"얇은 재킷 필수 — 아침·저녁 13°C"},{icon:"👟",text:"미끄럼방지 밑창 신발 ★★★"},{icon:"🧴",text:"선크림 SPF50+ · 모자 · 선글라스"},{icon:"⚠️",text:"산넨자카 돌계단 비 오면 매우 위험!",warn:true}],
+   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Hamamura+Kyoto/Kiyomizudera+Temple/Sannenzaka+Kyoto/Gion+Hanamikoji/Onyado+Nono+Kyoto+Shichijo",
+   items:[
+    {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","료칸포함"]},
+    {lat:35.0113,lng:135.6771,time:"10:00",type:"move",name:"체크아웃 & 택시 2대",note:"아라시야마 → 교토 시내",tags:["이동"]},
+    {lat:34.9890,lng:135.7623,time:"12:30",type:"meal",name:"하마무라",note:"스키야키 코스 / 교토역 이세탄",tags:["점심","예약필요"],restId:"hamamura"},
+    {lat:34.9947,lng:135.7847,time:"13:30",type:"sight",name:"기요미즈데라",note:"본당까지 천천히. 입장료 500엔",tags:["관광"]},
+    {lat:34.9967,lng:135.7810,time:"14:30",type:"sight",name:"산넨자카 · 니넨자카",note:"⚠ 돌계단 미끄러움 주의!",tags:["관광"]},
+    {lat:35.0038,lng:135.7750,time:"16:00",type:"sight",name:"기온 하나미코지",note:"완전 평지 ✓",tags:["관광"]},
+    {lat:35.0037,lng:135.7786,time:"16:30",type:"sight",name:"야사카 신사",note:"무료 입장",tags:["관광"]},
+    {lat:35.0036,lng:135.7805,time:"17:00",type:"sight",name:"마루야마 공원",note:"벤치 휴식 · 벚꽃 잔화",tags:["관광"]},
+    {lat:34.9890,lng:135.7623,time:"18:30",type:"hotel",name:"체크인 — 온야도 노노",note:"",tags:["숙소","예약완료"]},
+    {lat:35.0089,lng:135.7677,time:"저녁",type:"meal",name:"가츠구라 산조",note:"히레카츠 / 택시 10분",tags:["저녁","예약필요"],restId:"katsukura"},
+   ],
+   meals:[{type:"조식",name:"료칸 조식",menu:"일본식",st:"ok",stText:"포함"},{type:"점심",name:"하마무라",menu:"스키야키 코스",st:"req",stText:"예약필요",restId:"hamamura",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},{type:"저녁",name:"가츠구라 산조",menu:"히레카츠",st:"req",stText:"예약필요",restId:"katsukura",gmaps:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"}]},
+  {n:4,date:"4/16 (목)",title:"은각사 & 철학의 길",color:"#ba7517",
+   weather:{icon:"☀️",temp:"26°C / 14°C",desc:"맑음 · 일교차 12°C"},
+   outfit:[{icon:"👕",text:"반팔 + 얇은 긴팔 레이어링"},{icon:"🧥",text:"얇은 재킷 (아침·저녁 필수)"},{icon:"👟",text:"철학의 길 2km — 편한 워킹화 필수"},{icon:"🦵",text:"무릎 보호대 착용 권장 (아버님)"},{icon:"🧴",text:"선크림 · 모자 (야외 활동 많은 날)"}],
+   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Ginkakuji+Temple/Philosophers+Path+Kyoto/Nanzenji+Temple/Junsei+Nanzenji+Kyoto/Tominojo+Kyoto+Sanjo",
+   items:[
+    {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","호텔포함"]},
+    {lat:34.9890,lng:135.7623,time:"09:30",type:"move",name:"택시 → 은각사",note:"약 25분 / 약 1,500엔",tags:["이동"]},
+    {lat:35.0270,lng:135.7982,time:"10:00",type:"sight",name:"은각사 (긴카쿠지)",note:"모래정원 · 이끼정원. 완전 평지 ✓",tags:["관광"]},
+    {lat:35.0215,lng:135.7943,time:"11:15",type:"sight",name:"철학의 길",note:"은각사에서 바로 연결. 2km 평지 ✓",tags:["관광"]},
+    {lat:35.0114,lng:135.7945,time:"12:30",type:"sight",name:"난젠지",note:"벽돌 수로 포토스팟",tags:["관광"]},
+    {lat:35.0114,lng:135.7901,time:"13:30",type:"meal",name:"준세이",note:"유두부 코스 / 도보 1분",tags:["점심","예약권장"],restId:"junsei"},
+    {lat:34.9890,lng:135.7623,time:"15:00",type:"hotel",name:"호텔 복귀 — 온천 & 휴식",note:"택시 약 25분",tags:["휴식"]},
+    {lat:35.0087,lng:135.7684,time:"18:00",type:"meal",name:"토미노조",note:"교토 와규 샤부샤부",tags:["저녁","예약권장"],restId:"tominojo"},
+   ],
+   meals:[{type:"조식",name:"호텔 뷔페",menu:"",st:"ok",stText:"포함"},{type:"점심",name:"준세이",menu:"유두부 코스",st:"req",stText:"예약권장",restId:"junsei",gmaps:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},{type:"저녁",name:"토미노조",menu:"와규 샤부샤부",st:"req",stText:"예약권장",restId:"tominojo",gmaps:"https://www.google.com/maps/search/Tominojo+Kyoto+Wagyu"}]},
+  {n:5,date:"4/17 (금)",title:"니시키시장 & 귀국",color:"#0f6e56",
+   weather:{icon:"⛅",temp:"22°C / 14°C",desc:"쾌청 · 일교차 8°C"},
+   outfit:[{icon:"👔",text:"편안한 캐주얼 — 이동 많은 날"},{icon:"🧥",text:"얇은 재킷 (공항 냉방 대비)"},{icon:"👟",text:"편한 신발 — 니시키시장 걷기"},{icon:"🎒",text:"기내 반입 가방 미리 준비"},{icon:"⚠️",text:"15:30 픽업 시간 절대 엄수!",warn:true}],
+   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Nishiki+Market+Kyoto/Takashimaya+Kyoto/Gyukatsu+Kyoto+Katsugyu/Kansai+International+Airport",
+   items:[
+    {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","호텔포함"]},
+    {lat:34.9890,lng:135.7623,time:"10:00",type:"move",name:"체크아웃",note:"짐 프런트 보관",tags:["이동"]},
+    {lat:35.0050,lng:135.7647,time:"10:30",type:"sight",name:"니시키시장",note:"먹거리 & 간식. 평지 ✓",tags:["쇼핑"]},
+    {lat:34.9886,lng:135.7581,time:"12:00",type:"sight",name:"다카시마야 백화점",note:"닷사이23 · 손수건 · 화과자",tags:["쇼핑"]},
+    {lat:34.9893,lng:135.7606,time:"13:30",type:"meal",name:"규카츠 교토 카츠규",note:"소고기 규카츠 / 교토역 도보 2분",tags:["점심","예약불필요"],restId:"gyukatsu"},
+    {lat:34.9890,lng:135.7623,time:"15:30",type:"move",name:"전용 밴 탑승 → 공항",note:"⚠ 15:30 마지노선!",tags:["이동","예약필요"]},
+    {lat:34.4347,lng:135.244,time:"17:30",type:"move",name:"간사이공항 도착 & 출국",note:"",tags:["이동"]},
+    {lat:34.4347,lng:135.244,time:"19:35",type:"move",name:"KE2120 탑승 → 김포",note:"도착 21:25",tags:["이동"]},
+   ],
+   meals:[{type:"조식",name:"호텔 뷔페",menu:"",st:"ok",stText:"포함"},{type:"점심",name:"규카츠 교토 카츠규",menu:"소고기 규카츠",st:"ok",stText:"예약불필요",restId:"gyukatsu",gmaps:"https://www.google.com/maps/search/Gyukatsu+Kyoto+Katsugyu+Station"},{type:"저녁",name:"기내식",menu:"",st:""}]},
+];
+
+const DCOL={meal:"#d4537e",sight:"#378add",hotel:"#639922",move:"#888780"};
+const TCLS={"점심":"t-meal","저녁":"t-meal","조식":"t-meal","료칸포함":"t-hotel","호텔포함":"t-hotel","관광":"t-sight","쇼핑":"t-sight","이동":"t-move","휴식":"t-move","예약완료":"t-ok","예약불필요":"t-ok","예약필요":"t-req","예약권장":"t-req"};
+
+/* ── PAGE SWITCH ── */
+function switchPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.textContent.includes(p==='schedule'?'일정표':'식당')));
+  document.getElementById('dayTabs').style.display=p==='schedule'?'flex':'none';
+  if(p==='restaurant') renderRestaurants();
+  if(p==='schedule'&&window.gmap) google.maps.event.trigger(window.gmap,'resize');
+}
+
+/* ── GOOGLE MAP ── */
+let gMarkers=[],gPolyline=null,gInfoWindow=null;
+
+window.initMap=function(){
+  window.gmap=new google.maps.Map(document.getElementById('map'),{
+    center:{lat:35.01,lng:135.75},zoom:12,
+    mapTypeControl:true,streetViewControl:false,fullscreenControl:false
+  });
+  gInfoWindow=new google.maps.InfoWindow();
+  renderMap(DAYS[0]);
+  const sw=document.getElementById('splitWrap');
+  setH(Math.round(sw.offsetHeight*0.45));
+};
+
+function clearMap(){
+  gMarkers.forEach(m=>m.setMap(null));gMarkers=[];
+  if(gPolyline){gPolyline.setMap(null);gPolyline=null;}
+}
+
+function renderMap(day){
+  if(!window.gmap) return;
+  clearMap();
+  const coords=[],seen=new Set();let idx=1;
+  day.items.forEach(item=>{
+    const k=item.lat+','+item.lng;
+    if(!seen.has(k)){
+      seen.add(k);
+      const pos={lat:item.lat,lng:item.lng};
+      coords.push(pos);
+      const col=DCOL[item.type]||'#888';
+      const marker=new google.maps.Marker({
+        position:pos,map:window.gmap,title:item.name,
+        label:{text:String(idx),color:'#fff',fontSize:'10px',fontWeight:'700'},
+        icon:{path:google.maps.SymbolPath.CIRCLE,scale:13,fillColor:col,fillOpacity:1,strokeColor:'#fff',strokeWeight:2.5}
+      });
+      marker.addListener('click',()=>{
+        gInfoWindow.setContent(`<div style="font-family:'Noto Sans KR',sans-serif;padding:2px 4px"><b style="font-size:13px">${item.name}</b><br><span style="color:#888;font-size:11px">${item.time}${item.note?' · '+item.note:''}</span></div>`);
+        gInfoWindow.open(window.gmap,marker);
+      });
+      gMarkers.push(marker);idx++;
+    }
+  });
+  if(coords.length>1){
+    gPolyline=new google.maps.Polyline({path:coords,geodesic:true,strokeColor:day.color,strokeOpacity:0.8,strokeWeight:3,
+      icons:[{icon:{path:google.maps.SymbolPath.FORWARD_OPEN_ARROW,scale:2,strokeColor:day.color},offset:'50%',repeat:'80px'}]
+    });
+    gPolyline.setMap(window.gmap);
+  }
+  if(coords.length){
+    const b=new google.maps.LatLngBounds();
+    coords.forEach(c=>b.extend(c));
+    window.gmap.fitBounds(b,{top:40,right:40,bottom:40,left:40});
+  }
+}
+
+/* ── SCHEDULE ── */
+function renderSchedule(day){
+  const stcls={ok:'t-ok',req:'t-req'};
+  const restMap={};RESTAURANTS.forEach(r=>restMap[r.id]=r);
+  let sh=`<div class="day-hd">
+    <div class="day-badge" style="background:${day.color}1a;color:${day.color};border:1px solid ${day.color}55"><b>${day.n}일차</b><span>${day.date}</span></div>
+    <div class="day-title-main">${day.title}</div>
+    <div class="day-sub">${day.items.length}개 일정</div>
+    <a class="gmap-link" href="${day.gmaps}" target="_blank">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>구글맵 전체 경로
+    </a></div>
+  <div class="weather-row"><span style="font-size:15px">${day.weather.icon}</span><span style="font-weight:700;font-size:12px">${day.weather.temp}</span><span style="color:#9a8b9c;font-size:11px;margin-left:4px">${day.weather.desc}</span></div>`;
+  sh+=`<div class="outfit-section"><div class="outfit-title">추천 의상</div>`;
+  day.outfit.forEach(o=>{sh+=`<div class="outfit-item"><span class="outfit-icon">${o.icon}</span><span class="outfit-text${o.warn?' outfit-warn':''}">${o.text}</span></div>`;});
+  sh+=`</div><div class="sec-div">식사 요약</div>`;
+  day.meals.forEach(m=>{
+    const rLink=m.gmaps?`<a href="${m.gmaps}" target="_blank">${m.name}</a>`:m.name;
+    sh+=`<div class="meal-row"><div class="meal-type">${m.type}</div><div><div class="meal-name">${rLink}</div>${m.menu?`<div class="meal-menu">${m.menu}</div>`:''} ${m.st?`<span class="meal-st ${stcls[m.st]||''}">${m.stText}</span>`:''}</div></div>`;
+  });
+  document.getElementById('daySidebar').innerHTML=sh;
+  let th=`<div class="tl">`;
+  day.items.forEach((item,i)=>{
+    const tags=(item.tags||[]).map(t=>`<span class="tag ${TCLS[t]||'t-move'}">${t}</span>`).join('');
+    const last=i===day.items.length-1;
+    const r=item.restId?restMap[item.restId]:null;
+    const nameHtml=r?`<a href="${r.gmaps}" target="_blank">${item.name}</a>`:item.name;
+    th+=`<div class="tl-row"><div class="tl-time">${item.time}</div><div class="tl-mid"><div class="tl-dot" style="background:${DCOL[item.type]||'#888'}"></div>${!last?'<div class="tl-seg"></div>':''}</div><div class="tl-body"><div class="tl-name">${nameHtml}</div>${item.note?`<div class="tl-note">${item.note}</div>`:''} ${tags?`<div class="tags">${tags}</div>`:''}</div></div>`;
+  });
+  th+=`</div>`;
+  document.getElementById('timelinePanel').innerHTML=th;
+}
+
+/* ── RESTAURANT ── */
+function renderRestaurants(){
+  const g=document.getElementById('restGrid');
+  if(g.children.length>0)return;
+  RESTAURANTS.forEach((r,i)=>{
+    const menuHtml=r.menu.map((m,mi)=>`<span class="menu-pill${mi===0?' star':''}">${m}</span>`).join('');
+    g.innerHTML+=`<div class="rest-card"><div class="rest-card-head"><div class="rest-card-top"><div class="rest-num" style="background:${r.color}">${i+1}</div><div><div class="rest-name">${r.name}</div><div class="rest-name-en">${r.nameEn}</div></div></div><div class="rest-badges"><span class="tag t-meal">${r.meal}</span><span class="tag t-move">${r.day}</span><span class="${r.reserveCls}">${r.reserve}</span></div></div><div class="rest-body"><div class="rest-row"><div class="rest-label">추천메뉴</div><div class="rest-val"><div class="rest-menu-pills">${menuHtml}</div></div></div><div class="rest-row"><div class="rest-label">팁</div><div class="rest-val"><div class="rest-tip">${r.tip}</div></div></div><div class="rest-row"><div class="rest-label">예약</div><div class="rest-val">${r.reserveHow}</div></div><div class="rest-row"><div class="rest-label">전화</div><div class="rest-val">${r.tel!=='-'?`<a href="tel:${r.tel}">${r.tel}</a>`:'-'}</div></div><div class="rest-row"><div class="rest-label">지도</div><div class="rest-val"><a class="rest-gmap" href="${r.gmaps}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>구글맵에서 보기</a></div></div></div></div>`;
+  });
+}
+
+/* ── DAY TABS ── */
+function switchDay(n){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',+b.dataset.n===n));
+  const day=DAYS[n-1];
+  renderSchedule(day);
+  renderMap(day);
+}
+const tabsEl=document.getElementById('dayTabs');
+DAYS.forEach(d=>{
+  const b=document.createElement('button');
+  b.className='tab-btn';b.dataset.n=d.n;
+  b.textContent=`${d.n}일차 ${d.date}`;
+  b.onclick=()=>switchDay(d.n);
+  tabsEl.appendChild(b);
+});
+document.querySelector('.tab-btn').classList.add('active');
+renderSchedule(DAYS[0]);
+
+/* ── DRAG HANDLE ── */
+const splitWrap=document.getElementById('splitWrap');
+const schedulePanel=document.getElementById('schedulePanel');
+const dragHandle=document.getElementById('dragHandle');
+const ratioBadge=document.getElementById('ratioBadge');
+let isDragging=false,startY=0,startH=0;
+
+function updateRatio(){
+  const wH=splitWrap.offsetHeight,sH=schedulePanel.offsetHeight;
+  const mH=wH-dragHandle.offsetHeight-sH;
+  ratioBadge.textContent=`일정 ${Math.round(sH/wH*100)}% : 지도 ${Math.round(Math.max(0,mH)/wH*100)}%`;
+}
+function setH(h){
+  const wH=splitWrap.offsetHeight,hH=dragHandle.offsetHeight;
+  h=Math.max(80,Math.min(wH-hH-60,h));
+  schedulePanel.style.height=h+'px';
+  if(window.gmap) google.maps.event.trigger(window.gmap,'resize');
+  updateRatio();
+}
+dragHandle.addEventListener('mousedown',e=>{isDragging=true;startY=e.clientY;startH=schedulePanel.offsetHeight;dragHandle.classList.add('dragging');document.body.style.cssText='cursor:row-resize;user-select:none';});
+dragHandle.addEventListener('touchstart',e=>{isDragging=true;startY=e.touches[0].clientY;startH=schedulePanel.offsetHeight;dragHandle.classList.add('dragging');},{passive:true});
+document.addEventListener('mousemove',e=>{if(isDragging)setH(startH+(e.clientY-startY));});
+document.addEventListener('touchmove',e=>{if(isDragging)setH(startH+(e.touches[0].clientY-startY));},{passive:true});
+document.addEventListener('mouseup',()=>{if(!isDragging)return;isDragging=false;dragHandle.classList.remove('dragging');document.body.style.cssText='';});
+document.addEventListener('touchend',()=>{isDragging=false;dragHandle.classList.remove('dragging');});
+window.addEventListener('resize',()=>{if(window.gmap)google.maps.event.trigger(window.gmap,'resize');updateRatio();});
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtZJq7XvSyzuNsVAgp2xps3LraGxiugNc&language=ko&region=JP&callback=initMap" async defer></script>
+</body>
+</html>
