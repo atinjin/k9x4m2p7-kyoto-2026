@@ -833,7 +833,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12d — 시간표 탭명 변경</div>
+<div class="app-version">v2026.04.12e — 1일차 료칸 직행 반영 · 전일정 지도 경로 수정</div>
 
 </div>
 
@@ -953,7 +953,7 @@ const DAYS=[
   {n:1,date:"4/13",dow:"월",title:"도착 & 아라시야마",color:"#c94070",
    wx:{i:"⛅",t:"25°C / 11°C",d:"흐림 후 갬 · 일교차 14°C"},
    outfit:[{i:"👔",t:"얇은 긴팔 + 가디건 or 바람막이"},{i:"👟",t:"편한 워킹화 (평지 산책)"},{i:"☂️",t:"접이식 우산 지참"},{i:"⚠️",t:"저녁 11°C — 겉옷 필수",w:1}],
-   gmaps:"https://www.google.com/maps/dir/Gimpo+International+Airport/Kansai+International+Airport/Arashiyama+Yoshimura+Kyoto/Togetsukyo+Bridge/Hanaikada+Ryokan+Arashiyama",
+   gmaps:"https://www.google.com/maps/dir/Gimpo+International+Airport/Kansai+International+Airport/Hanaikada+Ryokan+Arashiyama/Arashiyama+Yoshimura+Kyoto/Togetsukyo+Bridge/Hanaikada+Ryokan+Arashiyama",
    items:[
     {lat:37.4536,lng:126.8958,time:"06:00",type:"move",name:"집 출발",note:"서울시 금천구 시흥동 → 김포공항 이동. 택시 or 대중교통",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"07:15",type:"move",name:"김포공항 도착 & 체크인",note:"국제선 3층 대한항공 카운터. 탑승 2시간 전 도착 권장",tags:["이동"]},
@@ -961,7 +961,8 @@ const DAYS=[
     {lat:37.5583,lng:126.7944,time:"09:15",type:"move",name:"KE2117 탑승 출발",note:"김포 → 간사이 직항 1시간 40분",tags:["이동"]},
     {lat:34.4347,lng:135.244,time:"10:55",type:"move",name:"간사이 공항 도착",note:"입국심사 → 수하물 수령 → T1 도착 로비에서 JIN 네임사인 기사 미팅",tags:["이동","예약완료"]},
     {lat:34.4347,lng:135.244,time:"11:45",type:"move",name:"전용 밴 출발 → 료칸 직행",note:"KKday #26KK233070636 · 디럭스 7인승 · 공항 → 료칸 약 90분",tags:["이동","예약완료"]},
-    {lat:35.0136,lng:135.6773,time:"13:15",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
+    {lat:35.0113,lng:135.6771,time:"13:15",type:"hotel",name:"료칸 도착 · 짐 맡기기",note:"프런트에 짐 보관 → 도보 5분 이동",tags:["숙소"]},
+    {lat:35.0136,lng:135.6773,time:"13:30",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바 · 료칸 도보 5분",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
     {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 준세이 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 하마무라 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
@@ -975,7 +976,7 @@ const DAYS=[
   {n:2,date:"4/14",dow:"화",title:"금각사 & 아라시야마",color:"#2563a8",
    wx:{i:"☀️",t:"24°C / 14°C",d:"맑음 · 일교차 10°C"},
    outfit:[{i:"👕",t:"반팔 + 얇은 긴팔 레이어링"},{i:"🧥",t:"가디건 필수 (아침·저녁)"},{i:"👟",t:"워킹화 — 금각사·대나무숲"},{i:"🧴",t:"선크림 SPF50+"},{i:"⚠️",t:"아침 14°C — 외출 시 겉옷",w:1}],
-   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Kinkakuji+Temple/Arashiyama+Bamboo+Forest/Tenryuji+Temple/Shoraian+Arashiyama/Kijurou+Arashiyama",
+   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Kinkakuji+Temple/Arashiyama+Bamboo+Forest/Tenryuji+Temple/Shoraian+Arashiyama/Hanaikada+Ryokan+Arashiyama/Kijurou+Arashiyama",
    items:[
     {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","포함"]},
     {lat:35.0394,lng:135.7292,time:"10:00",type:"sight",name:"금각사 (킨카쿠지)",note:"료칸 09:20 출발 · 택시 25분 · 입장료 500엔",tags:["관광"]},
@@ -993,7 +994,7 @@ const DAYS=[
   {n:3,date:"4/15",dow:"수",title:"은각사 · 철학의 길 & 이동",color:"#2d7a4a",
    wx:{i:"🌧️",t:"20°C / 10°C",d:"비 80% · 오후 소강 가능 · 일교차 10°C"},
    outfit:[{i:"👔",t:"긴팔 + 얇은 재킷 (낮 최고 20°C)"},{i:"☂️",t:"우산 필수 · 우비 권장"},{i:"👟",t:"워킹화 — 평지 위주 ✓"},{i:"🎒",t:"방수 가방 커버 · 수건"},{i:"⚠️",t:"비 오는 날 — 무리하지 않기",w:1}],
-   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan/Onyado+Nono+Kyoto/Ginkakuji+Temple/Philosophers+Path+Kyoto/Nanzenji+Temple/Junsei+Nanzenji",
+   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Onyado+Nono+Kyoto+Shichijo/Ginkakuji+Temple/Philosophers+Path+Kyoto/Nanzenji+Temple/Junsei+Nanzenji/Onyado+Nono+Kyoto+Shichijo/Katsukura+Sanjo+Kyoto",
    items:[
     {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","포함"]},
     {lat:35.0113,lng:135.6771,time:"10:00",type:"move",name:"체크아웃 & 택시 2대",note:"아라시야마 → 교토 시내 (약 45분)",tags:["이동"]},
@@ -1014,7 +1015,7 @@ const DAYS=[
   {n:4,date:"4/16",dow:"목",title:"기요미즈데라 & 기온",color:"#a05c10",
    wx:{i:"☀️",t:"25°C / 13°C",d:"맑음 · 비 개임 · 일교차 12°C"},
    outfit:[{i:"👕",t:"반팔 + 얇은 긴팔"},{i:"🧥",t:"얇은 재킷"},{i:"👟",t:"미끄럼방지 신발 ★★★"},{i:"🦵",t:"무릎 보호대 (아버님)"},{i:"🧴",t:"선크림 · 모자"}],
-   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Kiyomizudera/Sannenzaka/Gion+Hanamikoji/Yasaka+Shrine/Hamamura+Kyoto/Tominojo+Kyoto",
+   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto+Shichijo/Kiyomizudera/Sannenzaka/Gion+Hanamikoji/Yasaka+Shrine/Kyoto+Station+Isetan/Onyado+Nono+Kyoto+Shichijo/Tominojo+Kyoto",
    items:[
     {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","포함"]},
     {lat:34.9890,lng:135.7623,time:"09:30",type:"move",name:"택시 → 기요미즈데라",note:"약 15분",tags:["이동"]},
@@ -1034,7 +1035,7 @@ const DAYS=[
   {n:5,date:"4/17",dow:"금",title:"니시키시장 & 귀국",color:"#1a6e6e",
    wx:{i:"⛅",t:"27°C / 12°C",d:"맑음 · 일교차 15°C"},
    outfit:[{i:"👔",t:"편안한 캐주얼 (낮 27°C)"},{i:"🧥",t:"얇은 재킷 (공항 냉방)"},{i:"🎒",t:"기내 반입 가방 준비"},{i:"⚠️",t:"15:30 픽업 절대 엄수!",w:1}],
-   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Nishiki+Market/Takashimaya+Kyoto/Gyukatsu+Kyoto+Katsugyu/Kansai+International+Airport",
+   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto+Shichijo/Nishiki+Market+Kyoto/Takashimaya+Kyoto/Gyukatsu+Kyoto+Katsugyu/Onyado+Nono+Kyoto+Shichijo/Kansai+International+Airport",
    items:[
     {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","포함"]},
     {lat:34.9890,lng:135.7623,time:"10:00",type:"move",name:"체크아웃",note:"짐 프런트 보관",tags:["이동"]},
