@@ -59,6 +59,43 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 .npill:hover{background:var(--bg2);border-color:var(--border2)}
 .npill.on{background:var(--text);border-color:var(--text);color:#fff}
 .topbar-spacer{flex:1}
+.menu-btn{
+  width:36px;height:36px;border-radius:8px;border:1px solid var(--border);
+  background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--text2);transition:.15s;flex-shrink:0;
+}
+.menu-btn:hover{background:var(--bg2);border-color:var(--border2)}
+.menu-popover{
+  display:none;position:absolute;top:52px;right:16px;z-index:300;
+  background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  box-shadow:var(--shadow-md);min-width:180px;overflow:hidden;
+}
+.menu-popover.on{display:block}
+.menu-item{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;font-size:13px;font-weight:500;
+  color:var(--text2);cursor:pointer;border:none;background:none;
+  width:100%;font-family:inherit;transition:.15s;text-align:left;
+}
+.menu-item:hover{background:var(--bg2);color:var(--text)}
+.menu-item.on{color:var(--pink);font-weight:700;background:var(--pink-bg)}
+.menu-item+.menu-item{border-top:1px solid var(--bg3)}
+.menu-backdrop{display:none;position:fixed;inset:0;z-index:250}
+.menu-backdrop.on{display:block}
+
+/* ═══ LANG TABS (모달 내 언어 전환) ═══ */
+.lang-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0}
+.lang-tab{
+  flex:1;padding:10px 0;text-align:center;
+  font-size:12px;font-weight:600;cursor:pointer;
+  color:var(--text3);border-bottom:2px solid transparent;
+  transition:.15s;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:inherit;
+}
+.lang-tab:hover{color:var(--text2);background:var(--bg2)}
+.lang-tab.on{color:var(--pink);border-bottom-color:var(--pink)}
+.lang-pane{display:none}
+.lang-pane.on{display:block}
 
 /* ═══ DAY SELECTOR — 핵심 UI ═══ */
 .day-selector-wrap{
@@ -542,13 +579,15 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="logo">🌸 진패밀리 교토 <em>가족여행</em> 2026</div>
-    <div class="nav-pills">
-      <button class="npill on" onclick="switchPage('overview')">여행 개요</button>
-      <button class="npill" onclick="switchPage('schedule')">일정표</button>
-      <button class="npill" onclick="switchPage('restaurant')">식당 안내</button>
-      <button class="npill" onclick="switchPage('packing')">준비물</button>
-    </div>
     <div class="topbar-spacer"></div>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="메뉴">☰</button>
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+    <div class="menu-popover" id="menuPopover">
+      <button class="menu-item on" onclick="switchPage('overview')">📋 여행 개요</button>
+      <button class="menu-item" onclick="switchPage('schedule')">📅 일정표</button>
+      <button class="menu-item" onclick="switchPage('restaurant')">🍽️ 식당 안내</button>
+      <button class="menu-item" onclick="switchPage('packing')">🎒 준비물</button>
+    </div>
   </div>
 
   <!-- OVERVIEW PAGE -->
@@ -809,69 +848,76 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 <div class="modal-overlay" id="conciergeModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <div class="modal-head">
-      <div class="modal-title">🏨 료칸 컨시어지 — 식당 예약 요청문</div>
+      <div class="modal-title">🏨 식당 예약 요청문</div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
+    <div class="lang-tabs">
+      <button class="lang-tab on" onclick="switchLang('jp')">🇯🇵 日本語</button>
+      <button class="lang-tab" onclick="switchLang('en')">🇬🇧 English</button>
+      <button class="lang-tab" onclick="switchLang('ko')">🇰🇷 한국어</button>
+    </div>
     <div class="modal-body">
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇯🇵 일본어</div>
-        <div class="modal-lang-body">すみません、いくつかのレストランの予約をお願いできますでしょうか。4名での旅行です。
+      <div class="lang-pane on" id="lang-jp">
+        <div class="modal-lang">
+          <div class="modal-lang-body">すみません、いくつかのレストランの予約をお願いできますでしょうか。4名での旅行です。
 
 ① 木寿楼（きじゅろう）
 　4月14日（火）夕食　18:30頃　4名
 
-② 浜むら（はまむら）
-　4月15日（水）昼食　12:30頃　4名
-　京都駅伊勢丹店
+② 順正（じゅんせい）
+　4月15日（水）昼食　14:30頃　4名
 
 ③ かつくら 三条店
 　4月15日（水）夕食　18:30頃　4名
 
-④ 順正（じゅんせい）
+④ 浜むら（はまむら）
 　4月16日（木）昼食　13:30頃　4名
+　京都駅伊勢丹店
 
 ⑤ 富之上（とみのじょう）
 　4月16日（木）夕食　18:00頃　4名
 
 もしご予約が難しい場合は、代わりの店をご紹介いただけますと幸いです。
 どうぞよろしくお願いいたします。</div>
+        </div>
       </div>
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇬🇧 영어</div>
-        <div class="modal-lang-body">Excuse me, could you help us make restaurant reservations? We are a group of 4.
+      <div class="lang-pane" id="lang-en">
+        <div class="modal-lang">
+          <div class="modal-lang-body">Excuse me, could you help us make restaurant reservations? We are a group of 4.
 
-① Kijurou
+① Kijurou (木寿楼)
 　April 14 (Tue), dinner around 18:30, 4 people
 
-② Hamamura (Kyoto Station Isetan)
-　April 15 (Wed), lunch around 12:30, 4 people
+② Junsei (順正), near Nanzenji
+　April 15 (Wed), lunch around 14:30, 4 people
 
-③ Katsukura Sanjo
+③ Katsukura Sanjo (かつくら三条店)
 　April 15 (Wed), dinner around 18:30, 4 people
 
-④ Junsei
+④ Hamamura (浜むら), Kyoto Stn Isetan
 　April 16 (Thu), lunch around 13:30, 4 people
 
-⑤ Tominojo
+⑤ Tominojo (富之上)
 　April 16 (Thu), dinner around 18:00, 4 people
 
 If any reservation is unavailable, we would appreciate an alternative recommendation.
 Thank you so much for your help.</div>
+        </div>
       </div>
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇰🇷 한국어 (참고용)</div>
-        <div class="modal-lang-body">실례합니다, 저희 대신 식당 예약을 부탁드릴 수 있을까요? 4인 가족입니다.
+      <div class="lang-pane" id="lang-ko">
+        <div class="modal-lang">
+          <div class="modal-lang-body">실례합니다, 저희 대신 식당 예약을 부탁드릴 수 있을까요? 4인 가족입니다.
 
 ① 기쥬로 (木寿楼)
 　4월 14일 (화) 저녁 18:30경, 4명
 
-② 하마무라 (浜むら) — 교토역 이세탄점
-　4월 15일 (수) 점심 12:30경, 4명
+② 준세이 (順正) — 난젠지 옆
+　4월 15일 (수) 점심 14:30경, 4명
 
 ③ 가츠구라 산조점 (かつくら三条店)
 　4월 15일 (수) 저녁 18:30경, 4명
 
-④ 준세이 (順正)
+④ 하마무라 (浜むら) — 교토역 이세탄점
 　4월 16일 (목) 점심 13:30경, 4명
 
 ⑤ 토미노조 (富之上)
@@ -879,6 +925,7 @@ Thank you so much for your help.</div>
 
 예약이 어려운 곳이 있으면 대안 식당을 추천해 주시면 감사하겠습니다.
 잘 부탁드립니다.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1058,17 +1105,38 @@ function closeModal(){
   document.getElementById('conciergeModal').classList.remove('on');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
+/* ══ MENU POPOVER ══ */
+function toggleMenu(){
+  document.getElementById('menuPopover').classList.toggle('on');
+  document.getElementById('menuBackdrop').classList.toggle('on');
+}
+
+/* ══ LANG TABS (예약 요청문) ══ */
+function switchLang(lang){
+  document.querySelectorAll('.lang-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.lang-pane').forEach(p=>p.classList.remove('on'));
+  const pane=document.getElementById('lang-'+lang);
+  if(pane) pane.classList.add('on');
+  const labels={jp:'🇯🇵 日本語',en:'🇬🇧 English',ko:'🇰🇷 한국어'};
+  document.querySelectorAll('.lang-tab').forEach(t=>{
+    if(t.textContent.trim()===labels[lang]) t.classList.add('on');
+  });
+}
+
+/* ══ PAGE SWITCH ══ */
 function switchPage(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));
   const pg = document.getElementById('page-'+p);
   if(pg) pg.classList.add('on');
-  const labels = {overview:'여행 개요',schedule:'일정표',restaurant:'식당 안내',packing:'준비물'};
-  document.querySelectorAll('.npill').forEach(b=>b.classList.toggle('on', b.textContent.trim()===labels[p]));
+  const pages=['overview','schedule','restaurant','packing'];
+  document.querySelectorAll('.menu-item').forEach((b,i)=>b.classList.toggle('on',pages[i]===p));
   if(p==='restaurant') renderRest();
   if(p==='packing') renderPacking();
   if(p==='schedule'&&window.gmap) google.maps.event.trigger(window.gmap,'resize');
+  // 메뉴 닫기
+  document.getElementById('menuPopover').classList.remove('on');
+  document.getElementById('menuBackdrop').classList.remove('on');
 }
 
 /* ══ CONTENT TAB SWITCH ══ */
