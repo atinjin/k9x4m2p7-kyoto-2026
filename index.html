@@ -471,6 +471,69 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   font-size:11px;font-weight:500;color:var(--text2);
 }
 .highlight-chip .hi{font-size:13px}
+/* ═══ MODAL ═══ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.on{display:flex}
+.modal-box{
+  background:var(--bg);border-radius:16px;
+  max-width:560px;width:100%;max-height:88vh;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.modal-box .modal-body{overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.modal-head{
+  padding:18px 20px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.modal-title{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.modal-close{
+  width:30px;height:30px;border-radius:50%;border:none;
+  background:var(--bg2);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text2);transition:.15s;
+}
+.modal-close:hover{background:var(--bg3)}
+.modal-body{overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px}
+.modal-lang{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.modal-lang-head{
+  padding:9px 14px;font-size:11px;font-weight:700;letter-spacing:.5px;
+  background:var(--bg2);border-bottom:1px solid var(--border);color:var(--text2);
+}
+.modal-lang-body{padding:14px 16px;font-size:13px;line-height:1.9;color:var(--text);white-space:pre-wrap}
+.tl-modal-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:6px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);
+  background:var(--bg);font-size:11px;font-weight:600;cursor:pointer;
+  color:var(--pink);font-family:inherit;transition:.15s;
+}
+.tl-modal-btn:hover{background:var(--pink-bg);border-color:var(--pink-light)}
+.tl-img-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:6px;margin-left:5px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);
+  background:var(--bg);font-size:11px;font-weight:600;cursor:pointer;
+  color:var(--blue);font-family:inherit;transition:.15s;
+}
+.tl-img-btn:hover{background:var(--blue-bg);border-color:#bdd0f0}
+.img-modal-overlay{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px;
+}
+.img-modal-overlay.on{display:flex}
+.img-modal-box{
+  background:var(--bg);border-radius:16px;
+  max-width:520px;width:100%;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+.img-modal-head{
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.img-modal-title{font-size:14px;font-weight:700}
+.img-modal-img{width:100%;height:260px;object-fit:cover;display:block}
+.img-modal-caption{padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6}
 </style>
 </head>
 <body>
@@ -622,8 +685,8 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
             <div class="ov-day-n" style="background:#2d7a4a">3일차</div>
             <div class="ov-day-info">
               <div class="ov-day-date">4/15 (수)</div>
-              <div class="ov-day-title">기요미즈데라 & 호텔 이동</div>
-              <div class="ov-day-desc">기요미즈데라 → 기온 → 온야도 노노 체크인</div>
+              <div class="ov-day-title">기요미즈데라 (청수사) & 호텔 이동</div>
+              <div class="ov-day-desc">기요미즈데라 (청수사) → 기온 → 온야도 노노 체크인</div>
             </div>
             <div class="ov-day-arrow">›</div>
           </div>
@@ -729,6 +792,98 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   </div>
 
 </div>
+
+<!-- 이미지 모달 -->
+<div class="img-modal-overlay" id="imgModal" onclick="if(event.target===this)closeImgModal()">
+  <div class="img-modal-box">
+    <div class="img-modal-head">
+      <div class="img-modal-title" id="imgModalTitle"></div>
+      <button class="modal-close" onclick="closeImgModal()">✕</button>
+    </div>
+    <img class="img-modal-img" id="imgModalImg" src="" alt="">
+    <div class="img-modal-caption" id="imgModalCaption"></div>
+  </div>
+</div>
+
+<!-- 컨시어지 예약 요청 모달 -->
+<div class="modal-overlay" id="conciergeModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">🏨 료칸 컨시어지 — 식당 예약 요청문</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-lang">
+        <div class="modal-lang-head">🇯🇵 일본어</div>
+        <div class="modal-lang-body">すみません、いくつかのレストランの予約をお願いできますでしょうか。4名での旅行です。
+
+① 木寿楼（きじゅろう）
+　4月14日（火）夕食　18:30頃　4名
+
+② 浜むら（はまむら）
+　4月15日（水）昼食　12:30頃　4名
+　京都駅伊勢丹店
+
+③ かつくら 三条店
+　4月15日（水）夕食　18:30頃　4名
+
+④ 順正（じゅんせい）
+　4月16日（木）昼食　13:30頃　4名
+
+⑤ 富之上（とみのじょう）
+　4月16日（木）夕食　18:00頃　4名
+
+もしご予約が難しい場合は、代わりの店をご紹介いただけますと幸いです。
+どうぞよろしくお願いいたします。</div>
+      </div>
+      <div class="modal-lang">
+        <div class="modal-lang-head">🇬🇧 영어</div>
+        <div class="modal-lang-body">Excuse me, could you help us make restaurant reservations? We are a group of 4.
+
+① Kijurou
+　April 14 (Tue), dinner around 18:30, 4 people
+
+② Hamamura (Kyoto Station Isetan)
+　April 15 (Wed), lunch around 12:30, 4 people
+
+③ Katsukura Sanjo
+　April 15 (Wed), dinner around 18:30, 4 people
+
+④ Junsei
+　April 16 (Thu), lunch around 13:30, 4 people
+
+⑤ Tominojo
+　April 16 (Thu), dinner around 18:00, 4 people
+
+If any reservation is unavailable, we would appreciate an alternative recommendation.
+Thank you so much for your help.</div>
+      </div>
+      <div class="modal-lang">
+        <div class="modal-lang-head">🇰🇷 한국어 (참고용)</div>
+        <div class="modal-lang-body">실례합니다, 저희 대신 식당 예약을 부탁드릴 수 있을까요? 4인 가족입니다.
+
+① 기쥬로 (木寿楼)
+　4월 14일 (화) 저녁 18:30경, 4명
+
+② 하마무라 (浜むら) — 교토역 이세탄점
+　4월 15일 (수) 점심 12:30경, 4명
+
+③ 가츠구라 산조점 (かつくら三条店)
+　4월 15일 (수) 저녁 18:30경, 4명
+
+④ 준세이 (順正)
+　4월 16일 (목) 점심 13:30경, 4명
+
+⑤ 토미노조 (富之上)
+　4월 16일 (목) 저녁 18:00경, 4명
+
+예약이 어려운 곳이 있으면 대안 식당을 추천해 주시면 감사하겠습니다.
+잘 부탁드립니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ══ DATA ══ */
 const RESTAURANTS=[
@@ -757,7 +912,7 @@ const DAYS=[
     {lat:35.0136,lng:135.6773,time:"13:15",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
-    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 하마무라 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 준세이 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"]},
+    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 하마무라 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 준세이 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
     {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키",note:"객실 또는 개별실",tags:["저녁","포함"]},
    ],
    meals:[
@@ -783,7 +938,7 @@ const DAYS=[
     {tp:"점심",n:"쇼라이안",m:"두부 가이세키 프리미엄",s:"ok",st:"예약완료 ✓",rid:"shoraian",gm:"https://www.google.com/maps/search/Shoraian+Arashiyama"},
     {tp:"저녁",n:"기쥬로",m:"와규 스테이크",s:"req",st:"컨시어지 경유",rid:"kijurou",gm:"https://www.google.com/maps/search/Kijurou+Arashiyama"},
    ]},
-  {n:3,date:"4/15",dow:"수",title:"기요미즈데라 & 이동",color:"#2d7a4a",
+  {n:3,date:"4/15",dow:"수",title:"기요미즈데라 (청수사) & 이동",color:"#2d7a4a",
    wx:{i:"☀️",t:"27°C / 13°C",d:"맑고 따뜻 · 일교차 14°C"},
    outfit:[{i:"👕",t:"반팔 (낮 최고 27°C)"},{i:"🧥",t:"얇은 재킷 필수"},{i:"👟",t:"미끄럼방지 신발 ★★★"},{i:"🧴",t:"선크림 · 모자 · 선글라스"},{i:"⚠️",t:"산넨자카 돌계단 미끄러움!",w:1}],
    gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan/Hamamura+Kyoto/Kiyomizudera/Sannenzaka/Gion+Hanamikoji/Onyado+Nono+Kyoto",
@@ -855,6 +1010,55 @@ const TCLS={
 const RMAP={};RESTAURANTS.forEach(r=>RMAP[r.id]=r);
 
 /* ══ PAGE SWITCH ══ */
+/* ══ PLACE IMAGES ══ */
+const PLACE_IMGS={
+  '집 출발':          {src:'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=800&q=80',cap:'서울시 금천구 시흥동 출발'},
+  '김포공항 도착 & 체크인':{src:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80',cap:'김포국제공항 국제선 터미널'},
+  'KE2117 탑승 출발':  {src:'https://images.unsplash.com/photo-1569629743817-70d8db6c323b?w=800&q=80',cap:'대한항공 김포 → 간사이 직항'},
+  '간사이 공항 도착':   {src:'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&q=80',cap:'간사이국제공항'},
+  '아라시야마 요시무라': {src:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80',cap:'도게츠교 전망 소바 레스토랑'},
+  '도게츠교 강변 산책': {src:'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&q=80',cap:'아라시야마 도게츠교'},
+  '체크인 — 료칸 Hanaikada':{src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'아라시야마 료칸 체크인'},
+  '금각사 (킨카쿠지)':  {src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'금각사 (킨카쿠지) — 황금빛 누각'},
+  '대나무숲 — 인력거 투어':{src:'https://images.unsplash.com/photo-1624601573012-efb68931cc8f?w=800&q=80',cap:'아라시야마 대나무숲 인력거 투어'},
+  '텐류지 정원':        {src:'https://images.unsplash.com/photo-1598449426314-8b02525e8733?w=800&q=80',cap:'텐류지 정원 — 세계문화유산'},
+  '기요미즈데라 (청수사)':{src:'https://images.unsplash.com/photo-1582379994703-57f4b09b83e2?w=800&q=80',cap:'기요미즈데라 (청수사) — 교토 대표 사찰'},
+  '산넨자카 · 니넨자카': {src:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80',cap:'산넨자카 · 니넨자카 돌길'},
+  '기온 하나미코지':    {src:'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=800&q=80',cap:'기온 하나미코지 — 게이샤 거리'},
+  '야사카 신사':        {src:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80',cap:'야사카 신사 — 무료 입장'},
+  '체크인 — 온야도 노노':{src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'온야도 노노 교토시치조 체크인'},
+  '은각사 (긴카쿠지)':  {src:'https://images.unsplash.com/photo-1589452271712-64b8a66c7b71?w=800&q=80',cap:'은각사 (긴카쿠지) — 모래정원과 이끼정원'},
+  '철학의 길':          {src:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80',cap:'철학의 길 — 2km 봄 벚꽃 산책로'},
+  '난젠지':             {src:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',cap:'난젠지 — 벽돌 수로 포토스팟'},
+  '니시키시장':         {src:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80',cap:'니시키시장 — 교토의 부엌'},
+};
+
+function openImgModal(name, note){
+  const img=PLACE_IMGS[name];
+  if(!img) return;
+  document.getElementById('imgModalTitle').textContent=name;
+  document.getElementById('imgModalImg').src=img.src;
+  document.getElementById('imgModalImg').alt=name;
+  document.getElementById('imgModalCaption').textContent=note||img.cap;
+  document.getElementById('imgModal').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeImgModal(){
+  document.getElementById('imgModal').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeImgModal(); } });
+
+function openModal(){
+  document.getElementById('conciergeModal').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('conciergeModal').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
 function switchPage(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));
   const pg = document.getElementById('page-'+p);
@@ -963,7 +1167,7 @@ const DAY_BANNERS = [
    highlights:[{i:"🥇",t:"금각사 관람"},{i:"🎋",t:"대나무숲 인력거"},{i:"🍃",t:"텐류지 정원"},{i:"🫕",t:"쇼라이안 두부"}]},
   {// 3일차 — 기요미즈데라
    src:"https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=900&q=80",
-   alt:"기요미즈데라 교토",
+   alt:"기요미즈데라 (청수사) 교토",
    highlights:[{i:"⛩️",t:"기요미즈데라 (청수사)"},{i:"🪨",t:"산넨자카"},{i:"👘",t:"기온 하나미코지"},{i:"🏨",t:"온야도 노노 체크인"}]},
   {// 4일차 — 철학의 길
    src:"https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900&q=80",
@@ -1055,6 +1259,8 @@ function buildTimeline(day){
         <div class="tl-name">${nm}</div>
         ${item.note?`<div class="tl-note">${item.note}</div>`:''}
         ${tags?`<div class="tags">${tags}</div>`:''}
+        ${item.modal==='concierge'?`<button class="tl-modal-btn" onclick="openModal()">📋 예약 요청문 보기</button>`:''}
+        ${PLACE_IMGS[item.name]?`<button class="tl-img-btn" data-pname="${item.name.replace(/"/g,'&quot;')}" data-pnote="${(item.note||'').replace(/"/g,'&quot;')}" onclick="openImgModal(this.dataset.pname,this.dataset.pnote)">🖼 사진 보기</button>`:''}
       </div>
     </div>`;
   });
@@ -1095,6 +1301,40 @@ renderDay(DAYS[0]);
 
 /* ══ PACKING DATA ══ */
 const PERSONS = [
+  {
+    id:'common', name:'공통 준비사항', role:'진동현이 담당', emoji:'📋', color:'#6b5560',
+    bags:[
+      {cat:'✅ 공통 서류', items:[
+        {n:'여권 4인 최종 확인',must:true},
+        {n:'Visit Japan Web 4인 등록 (입국심사·세관 사전 작성)',must:true},
+        {n:'항공권 예약번호 EFMLWJ 저장',must:true},
+        {n:'여행자 보험 증권 4인',must:true},
+        {n:'숙소 예약 확인서 2건',must:true},
+        {n:'KKday 쇼라이안 바우처 MJG072344',must:true},
+        {n:'공항 밴 예약 확인서 (왕복)',must:true},
+      ]},
+      {cat:'📱 통신', items:[
+        {n:'내 e심 — 일본 데이터 사전 개통',must:true},
+        {n:'아버지 유심 (일본 선불 SIM)',must:true},
+        {n:'어머니 유심 (일본 선불 SIM)',must:true},
+        {n:'여동생 유심 (일본 선불 SIM)',must:true},
+      ]},
+      {cat:'💊 상비약', items:[
+        {n:'소화제 (4인분)',must:true},
+        {n:'진통제 (4인분)',must:true},
+        {n:'감기약',must:true},
+        {n:'멀미약',must:false},
+        {n:'밴드 · 상처연고',must:true},
+      ]},
+      {cat:'📲 앱 설치 확인', items:[
+        {n:'Uber Japan 앱',must:true},
+        {n:'GO 택시 앱',must:true},
+        {n:'Papago 번역 앱',must:true},
+        {n:'KKday 앱 (바우처 확인)',must:true},
+        {n:'Google Maps 오프라인 저장 (교토)',must:true},
+      ]},
+    ]
+  },
   {
     id:'dad', name:'아버지', role:'진규호 · 1954년생', emoji:'👴', color:'#2563a8',
     bags:[
@@ -1187,27 +1427,6 @@ const PERSONS = [
   {
     id:'me', name:'나 (아들)', role:'진동현 · 1982년생', emoji:'🧑', color:'#1a6e6e',
     bags:[
-      {cat:'✅ 공용 서류 — 내가 챙김', items:[
-        {n:'여권 4인 최종 확인',must:true},
-        {n:'항공권 예약번호 EFMLWJ 저장',must:true},
-        {n:'여행자 보험 증권 4인',must:true},
-        {n:'숙소 예약 확인서 2건',must:true},
-        {n:'KKday 쇼라이안 바우처 MJG072344',must:true},
-        {n:'공항 밴 예약 확인서 (왕복)',must:true},
-      ]},
-      {cat:'📱 통신 — 내가 챙김', items:[
-        {n:'내 e심 — 일본 데이터 사전 개통',must:true},
-        {n:'아버지 유심 (일본 선불 SIM)',must:true},
-        {n:'어머니 유심 (일본 선불 SIM)',must:true},
-        {n:'여동생 유심 (일본 선불 SIM)',must:true},
-      ]},
-      {cat:'💊 상비약 — 내가 챙김', items:[
-        {n:'소화제 (4인분)',must:true},
-        {n:'진통제 (4인분)',must:true},
-        {n:'감기약',must:true},
-        {n:'멀미약',must:false},
-        {n:'밴드 · 상처연고',must:true},
-      ]},
       {cat:'💴 결제 — 내가 챙김', items:[
         {n:'해외 결제 카드 (현지 ATM 엔화 인출용)',must:true},
         {n:'신용카드 추가 1장 (여분)',must:false},
@@ -1241,13 +1460,6 @@ const PERSONS = [
         {n:'노트북 + 충전기',must:true},
         {n:'멀티 어댑터 (일본 110V)',must:true},
         {n:'카메라 + 여분 배터리',must:false},
-      ]},
-      {cat:'📲 앱 설치 확인', items:[
-        {n:'Uber Japan 앱',must:true},
-        {n:'GO 택시 앱',must:true},
-        {n:'Papago 번역 앱',must:true},
-        {n:'KKday 앱 (바우처 확인)',must:true},
-        {n:'Google Maps 오프라인 저장 (교토)',must:true},
       ]},
     ]
   },
