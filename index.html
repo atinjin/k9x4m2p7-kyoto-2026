@@ -758,7 +758,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">쇼라이안 점심 (KKday)</div><div class="ov-rs-sub">4/14 13:30 · 4인 · MJG072344</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">여행자 보험 (진동현)</div><div class="ov-rs-sub">82603567841000 · 4/13~4/17</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">4인 가족 여행자 보험</div><div class="ov-rs-sub">아버지 · 어머니 · 여동생</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">공항 전용 밴 (왕복)</div><div class="ov-rs-sub">KKday / Klook 예약 필요</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">공항 전용 밴 (KIX → 료칸)</div><div class="ov-rs-sub">KKday #26KK233070636 · 4/13 디럭스 7인승 · 230,279원</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">기쥬로 (2일차 저녁)</div><div class="ov-rs-sub">4/14 18:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">준세이 (3일차 점심)</div><div class="ov-rs-sub">4/15 14:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 료칸 컨시어지 경유</div></div></div>
@@ -954,8 +954,8 @@ const DAYS=[
     {lat:37.5583,lng:126.7944,time:"07:15",type:"move",name:"김포공항 도착 & 체크인",note:"국제선 3층 대한항공 카운터. 탑승 2시간 전 도착 권장",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"07:30",type:"move",name:"출국 수속 & 탑승구 이동",note:"출국심사 → 면세구역 → 탑승구 이동",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"09:15",type:"move",name:"KE2117 탑승 출발",note:"김포 → 간사이 직항 1시간 40분",tags:["이동"]},
-    {lat:34.4347,lng:135.244,time:"10:55",type:"move",name:"간사이 공항 도착",note:"입국심사 → 수하물 수령 → 전용 밴 탑승",tags:["이동","예약완료"]},
-    {lat:34.4347,lng:135.244,time:"11:45",type:"move",name:"전용 밴 출발 → 아라시야마",note:"입국심사 여유 확보 · 공항 → 아라시야마 약 90분 소요",tags:["이동","예약완료"]},
+    {lat:34.4347,lng:135.244,time:"10:55",type:"move",name:"간사이 공항 도착",note:"입국심사 → 수하물 수령 → T1 도착 로비에서 JIN 네임사인 기사 미팅",tags:["이동","예약완료"]},
+    {lat:34.4347,lng:135.244,time:"11:45",type:"move",name:"전용 밴 출발 → 료칸 직행",note:"KKday #26KK233070636 · 디럭스 7인승 · 공항 → 료칸 약 90분",tags:["이동","예약완료"]},
     {lat:35.0136,lng:135.6773,time:"13:15",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
@@ -1036,7 +1036,7 @@ const DAYS=[
     {lat:35.0050,lng:135.7647,time:"10:30",type:"sight",name:"니시키시장",note:"먹거리 & 간식. 평지 ✓",tags:["쇼핑"]},
     {lat:34.9886,lng:135.7581,time:"12:00",type:"sight",name:"다카시마야 백화점",note:"닷사이23 · 손수건 · 화과자",tags:["쇼핑"]},
     {lat:34.9893,lng:135.7606,time:"13:30",type:"meal",name:"규카츠 교토 카츠규",note:"교토역 도보 2분",tags:["점심","예약불필요"],rid:"gyukatsu"},
-    {lat:34.9890,lng:135.7623,time:"15:30",type:"move",name:"전용 밴 탑승 → 공항",note:"⚠ 15:30 마지노선!",tags:["이동"]},
+    {lat:34.9890,lng:135.7623,time:"15:30",type:"move",name:"전용 밴 탑승 → 공항",note:"⚠ 15:30 마지노선! · 복귀편 별도 예약 필요",tags:["이동","예약필요"]},
     {lat:34.4347,lng:135.244,time:"17:30",type:"move",name:"간사이공항 도착 & 출국",note:"",tags:["이동"]},
     {lat:34.4347,lng:135.244,time:"19:35",type:"move",name:"KE2120 탑승 → 김포",note:"도착 21:25",tags:["이동"]},
    ],
