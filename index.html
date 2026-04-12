@@ -385,13 +385,37 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   .ov-cards{grid-template-columns:repeat(2,1fr)}
 }
 /* ═══ PACKING PAGE ═══ */
+/* ═══ PACKING TABS ═══ */
+.pack-tabs{
+  display:flex;gap:0;border-bottom:1px solid var(--border);
+  background:var(--bg);overflow-x:auto;flex-shrink:0;
+  -webkit-overflow-scrolling:touch;
+  position:sticky;top:50px;z-index:10;
+}
+.pack-tabs::-webkit-scrollbar{display:none}
+.pack-tab{
+  flex:1;min-width:0;padding:10px 8px;text-align:center;
+  font-size:13px;font-weight:600;cursor:pointer;
+  color:var(--text3);border-bottom:2px solid transparent;
+  transition:.15s;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:inherit;white-space:nowrap;
+}
+.pack-tab:hover{color:var(--text2);background:var(--bg2)}
+.pack-tab.on{color:var(--pink);border-bottom-color:var(--pink)}
+.pack-tab .pt-emoji{display:block;font-size:18px;margin-bottom:2px}
+.pack-tab .pt-name{display:block;font-size:12px}
+@media(min-width:768px){
+  .pack-tabs{position:sticky;top:56px}
+  .pack-tab{padding:12px 16px}
+  .pack-tab .pt-name{font-size:13px}
+}
 .pack-page{flex:1;overflow-y:auto;padding:20px;background:var(--bg2)}
 .pack-page::-webkit-scrollbar{width:6px}
 .pack-page::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 .pack-header{max-width:1200px;margin:0 auto 16px;padding:0 2px}
 .pack-title{font-size:22px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
 .pack-sub{font-size:14px;color:var(--text3);margin-top:4px}
-.pack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;max-width:1200px;margin:0 auto}
+.pack-grid{max-width:600px;margin:0 auto}
 .person-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 .person-head{padding:16px 18px 12px;border-bottom:1px solid var(--bg3);display:flex;align-items:center;gap:12px}
 .person-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
@@ -417,7 +441,6 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 .badge-must{background:#fceef3;color:#8a1535}
 .badge-opt{background:var(--bg2);color:var(--text3)}
 @media(max-width:767px){
-  .pack-grid{grid-template-columns:1fr}
   .pack-page{padding:14px}
 }
 /* ═══ RESTAURANT PAGE ═══ */
@@ -850,16 +873,13 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   </div>
 
   <!-- PACKING PAGE -->
-  <div class="page" id="page-packing">
+  <div class="page" id="page-packing" style="flex-direction:column">
+    <div class="pack-tabs" id="packTabs"></div>
     <div class="pack-page">
-      <div class="pack-header">
-        <div class="pack-title">여행 준비물 체크리스트</div>
-        <div class="pack-sub">항목을 탭하면 체크/해제됩니다</div>
-      </div>
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12j — 준비물 체크 localStorage 영구 저장</div>
+<div class="app-version">v2026.04.12k — 준비물 인물별 탭 (공통·나·아버지·어머니·여동생)</div>
 
 </div>
 
@@ -1585,89 +1605,125 @@ const PERSONS = [
 const packState = (function(){try{return JSON.parse(localStorage.getItem('packState'))||{};}catch(e){return {};}})();
 function savePackState(){try{localStorage.setItem('packState',JSON.stringify(packState));}catch(e){}}
 
-function renderPacking(){
-  const g = document.getElementById('packGrid');
-  if(g.children.length) return;
-
-  PERSONS.forEach(p => {
-    if(!packState[p.id]) packState[p.id] = {};
-    p.bags.forEach(cat => {
-      cat.items.forEach((item, ii) => {
-        const key = cat.cat + '_' + ii;
-        if(packState[p.id][key]===undefined) packState[p.id][key] = false;
-      });
+// packState 초기화
+PERSONS.forEach(p => {
+  if(!packState[p.id]) packState[p.id] = {};
+  p.bags.forEach(cat => {
+    cat.items.forEach((item, ii) => {
+      const key = cat.cat + '_' + ii;
+      if(packState[p.id][key]===undefined) packState[p.id][key] = false;
     });
-
-    const totalItems = p.bags.reduce((s,c) => s + c.items.length, 0);
-    const initDone = Object.values(packState[p.id]).filter(Boolean).length;
-    const initPct = Math.round(initDone / totalItems * 100);
-
-    // person-card div 생성
-    const card = document.createElement('div');
-    card.className = 'person-card';
-    card.id = 'card_' + p.id;
-    card.innerHTML = `
-      <div class="person-head">
-        <div class="person-avatar" style="background:${p.color}18;border:1.5px solid ${p.color}40">${p.emoji}</div>
-        <div class="person-info">
-          <div class="person-name">${p.name}</div>
-          <div class="person-role">${p.role}</div>
-        </div>
-      </div>
-      <div class="person-progress">
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" id="bar_${p.id}" style="width:${initPct}%;background:${p.color}"></div>
-        </div>
-        <div class="progress-text" id="prog_text_${p.id}">${initDone} / ${totalItems}</div>
-      </div>`;
-
-    // 카테고리·아이템 DOM 직접 생성
-    p.bags.forEach(cat => {
-      const catDiv = document.createElement('div');
-      catDiv.className = 'pack-category';
-      catDiv.textContent = cat.cat;
-      card.appendChild(catDiv);
-
-      cat.items.forEach((item, ii) => {
-        const key = cat.cat + '_' + ii;
-        const row = document.createElement('div');
-        row.className = 'pack-item';
-        if(packState[p.id][key]) row.classList.add('checked');
-        row.dataset.pid = p.id;
-        row.dataset.key = key;
-        row.innerHTML = `
-          <div class="item-check">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <span class="item-name">${item.n}</span>
-          <span class="item-badge ${item.must ? 'badge-must' : 'badge-opt'}">${item.must ? '필수' : '선택'}</span>`;
-
-        // 클릭 이벤트 직접 바인딩
-        row.addEventListener('click', function() {
-          const k = this.dataset.key;
-          const pid = this.dataset.pid;
-          packState[pid][k] = !packState[pid][k];
-          this.classList.toggle('checked', packState[pid][k]);
-          savePackState();
-          // 진행률 업데이트
-          const person = PERSONS.find(px => px.id === pid);
-          const total = person.bags.reduce((s,c) => s + c.items.length, 0);
-          const done = Object.values(packState[pid]).filter(Boolean).length;
-          const pct = Math.round(done / total * 100);
-          const bar = document.getElementById('bar_' + pid);
-          const txt = document.getElementById('prog_text_' + pid);
-          if(bar) bar.style.width = pct + '%';
-          if(txt) txt.textContent = done + ' / ' + total;
-        });
-
-        card.appendChild(row);
-      });
-    });
-
-    g.appendChild(card);
   });
+});
+
+let packTabsBuilt = false;
+let curPackTab = 'common';
+
+function buildPackCard(p){
+  const totalItems = p.bags.reduce((s,c) => s + c.items.length, 0);
+  const initDone = Object.values(packState[p.id]).filter(Boolean).length;
+  const initPct = Math.round(initDone / totalItems * 100);
+
+  const card = document.createElement('div');
+  card.className = 'person-card';
+  card.id = 'card_' + p.id;
+  card.innerHTML = `
+    <div class="person-head">
+      <div class="person-avatar" style="background:${p.color}18;border:1.5px solid ${p.color}40">${p.emoji}</div>
+      <div class="person-info">
+        <div class="person-name">${p.name}</div>
+        <div class="person-role">${p.role}</div>
+      </div>
+    </div>
+    <div class="person-progress">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="bar_${p.id}" style="width:${initPct}%;background:${p.color}"></div>
+      </div>
+      <div class="progress-text" id="prog_text_${p.id}">${initDone} / ${totalItems}</div>
+    </div>`;
+
+  p.bags.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'pack-category';
+    catDiv.textContent = cat.cat;
+    card.appendChild(catDiv);
+
+    cat.items.forEach((item, ii) => {
+      const key = cat.cat + '_' + ii;
+      const row = document.createElement('div');
+      row.className = 'pack-item';
+      if(packState[p.id][key]) row.classList.add('checked');
+      row.dataset.pid = p.id;
+      row.dataset.key = key;
+      row.innerHTML = `
+        <div class="item-check">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <polyline points="2,6 5,9 10,3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="item-name">${item.n}</span>
+        <span class="item-badge ${item.must ? 'badge-must' : 'badge-opt'}">${item.must ? '필수' : '선택'}</span>`;
+
+      row.addEventListener('click', function() {
+        const k = this.dataset.key;
+        const pid = this.dataset.pid;
+        packState[pid][k] = !packState[pid][k];
+        this.classList.toggle('checked', packState[pid][k]);
+        savePackState();
+        const person = PERSONS.find(px => px.id === pid);
+        const total = person.bags.reduce((s,c) => s + c.items.length, 0);
+        const done = Object.values(packState[pid]).filter(Boolean).length;
+        const pct = Math.round(done / total * 100);
+        const bar = document.getElementById('bar_' + pid);
+        const txt = document.getElementById('prog_text_' + pid);
+        if(bar) bar.style.width = pct + '%';
+        if(txt) txt.textContent = done + ' / ' + total;
+        updatePackTabBadges();
+      });
+
+      card.appendChild(row);
+    });
+  });
+  return card;
+}
+
+function updatePackTabBadges(){
+  document.querySelectorAll('.pack-tab').forEach(tab=>{
+    const pid=tab.dataset.pid;
+    const p=PERSONS.find(px=>px.id===pid);
+    if(!p)return;
+    const total=p.bags.reduce((s,c)=>s+c.items.length,0);
+    const done=Object.values(packState[p.id]).filter(Boolean).length;
+    const badge=tab.querySelector('.pt-badge');
+    if(badge) badge.textContent=done===total?'✓':done+'/'+total;
+  });
+}
+
+function switchPackTab(pid){
+  curPackTab=pid;
+  document.querySelectorAll('.pack-tab').forEach(t=>t.classList.toggle('on',t.dataset.pid===pid));
+  const g=document.getElementById('packGrid');
+  g.innerHTML='';
+  const p=PERSONS.find(px=>px.id===pid);
+  if(p) g.appendChild(buildPackCard(p));
+}
+
+function renderPacking(){
+  if(!packTabsBuilt){
+    const tabs=document.getElementById('packTabs');
+    PERSONS.forEach((p,i)=>{
+      const btn=document.createElement('button');
+      btn.className='pack-tab'+(i===0?' on':'');
+      btn.dataset.pid=p.id;
+      btn.innerHTML=`<span class="pt-emoji">${p.emoji}</span><span class="pt-name">${p.name}</span><span class="pt-badge" style="font-size:11px;color:var(--text3)"></span>`;
+      btn.onclick=()=>switchPackTab(p.id);
+      tabs.appendChild(btn);
+    });
+    packTabsBuilt=true;
+    updatePackTabBadges();
+  }
+  const g=document.getElementById('packGrid');
+  if(!g.children.length) switchPackTab(curPackTab);
 }
 
 /* ══ RESTAURANT RENDER ══ */
