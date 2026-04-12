@@ -856,7 +856,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12i — 반응형 메뉴 (데스크톱 펼침 / 모바일 햄버거)</div>
+<div class="app-version">v2026.04.12j — 준비물 체크 localStorage 영구 저장</div>
 
 </div>
 
@@ -1579,21 +1579,25 @@ const PERSONS = [
   },
 ]
 
-const packState = {};
+const packState = (function(){try{return JSON.parse(localStorage.getItem('packState'))||{};}catch(e){return {};}})();
+function savePackState(){try{localStorage.setItem('packState',JSON.stringify(packState));}catch(e){}}
 
 function renderPacking(){
   const g = document.getElementById('packGrid');
   if(g.children.length) return;
 
   PERSONS.forEach(p => {
-    packState[p.id] = {};
+    if(!packState[p.id]) packState[p.id] = {};
     p.bags.forEach(cat => {
       cat.items.forEach((item, ii) => {
-        packState[p.id][cat.cat + '_' + ii] = false;
+        const key = cat.cat + '_' + ii;
+        if(packState[p.id][key]===undefined) packState[p.id][key] = false;
       });
     });
 
     const totalItems = p.bags.reduce((s,c) => s + c.items.length, 0);
+    const initDone = Object.values(packState[p.id]).filter(Boolean).length;
+    const initPct = Math.round(initDone / totalItems * 100);
 
     // person-card div 생성
     const card = document.createElement('div');
@@ -1609,9 +1613,9 @@ function renderPacking(){
       </div>
       <div class="person-progress">
         <div class="progress-bar-wrap">
-          <div class="progress-bar" id="bar_${p.id}" style="width:0%;background:${p.color}"></div>
+          <div class="progress-bar" id="bar_${p.id}" style="width:${initPct}%;background:${p.color}"></div>
         </div>
-        <div class="progress-text" id="prog_text_${p.id}">0 / ${totalItems}</div>
+        <div class="progress-text" id="prog_text_${p.id}">${initDone} / ${totalItems}</div>
       </div>`;
 
     // 카테고리·아이템 DOM 직접 생성
@@ -1625,6 +1629,7 @@ function renderPacking(){
         const key = cat.cat + '_' + ii;
         const row = document.createElement('div');
         row.className = 'pack-item';
+        if(packState[p.id][key]) row.classList.add('checked');
         row.dataset.pid = p.id;
         row.dataset.key = key;
         row.innerHTML = `
@@ -1642,6 +1647,7 @@ function renderPacking(){
           const pid = this.dataset.pid;
           packState[pid][k] = !packState[pid][k];
           this.classList.toggle('checked', packState[pid][k]);
+          savePackState();
           // 진행률 업데이트
           const person = PERSONS.find(px => px.id === pid);
           const total = person.bags.reduce((s,c) => s + c.items.length, 0);
