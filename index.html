@@ -1256,7 +1256,7 @@ function buildTimeline(day){
         ${item.note?`<div class="tl-note">${item.note}</div>`:''}
         ${tags?`<div class="tags">${tags}</div>`:''}
         ${item.modal==='concierge'?`<button class="tl-modal-btn" onclick="openModal()">📋 예약 요청문 보기</button>`:''}
-        ${PLACE_IMGS[item.name]?`<button class="tl-img-btn" onclick="openImgModal(${JSON.stringify(item.name)},${JSON.stringify(item.note||'')})">🖼 사진 보기</button>`:''}
+        ${PLACE_IMGS[item.name]?`<button class="tl-img-btn" data-pname="${item.name.replace(/"/g,'&quot;')}" data-pnote="${(item.note||'').replace(/"/g,'&quot;')}" onclick="openImgModal(this.dataset.pname,this.dataset.pnote)">🖼 사진 보기</button>`:''}
       </div>
     </div>`;
   });
