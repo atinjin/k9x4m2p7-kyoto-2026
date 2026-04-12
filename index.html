@@ -833,7 +833,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12e — 1일차 료칸 직행 반영 · 전일정 지도 경로 수정</div>
+<div class="app-version">v2026.04.12f — 저녁 식후 일정 추가 (온천·키모노포레스트·폰토초·교토타워)</div>
 
 </div>
 
@@ -967,6 +967,7 @@ const DAYS=[
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
     {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 준세이 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 하마무라 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
     {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키",note:"객실 또는 개별실",tags:["저녁","포함"]},
+    {lat:35.0113,lng:135.6771,time:"19:30",type:"hotel",name:"료칸 노천 온천",note:"밤 온천 — 분위기 최고",tags:["휴식"]},
    ],
    meals:[
     {tp:"조식",n:"기내식",m:"",s:""},
@@ -985,6 +986,7 @@ const DAYS=[
     {lat:35.0144,lng:135.6701,time:"13:30",type:"meal",name:"쇼라이안",note:"두부 가이세키 MJG072344 · 15분 지각 시 취소",tags:["점심","예약완료"],rid:"shoraian"},
     {lat:35.0113,lng:135.6771,time:"14:30",type:"hotel",name:"료칸 복귀 — 온천·낮잠",note:"",tags:["휴식"]},
     {lat:35.0204,lng:135.6805,time:"18:30",type:"meal",name:"기쥬로",note:"와규 스테이크 · 료칸 도보 5분 · 컨시어지 예약",tags:["저녁","예약권장"],rid:"kijurou"},
+    {lat:35.0171,lng:135.6794,time:"20:00",type:"sight",name:"키모노 포레스트",note:"란덴 아라시야마역 · LED 기둥 600개 · 야간 조명 · 무료",tags:["관광"]},
    ],
    meals:[
     {tp:"조식",n:"료칸 조식",m:"일본식",s:"ok",st:"포함"},
@@ -1006,6 +1008,7 @@ const DAYS=[
     {lat:35.0114,lng:135.7901,time:"14:30",type:"meal",name:"준세이",note:"유두부 코스 · 난젠지 도보 1분 · 컨시어지 예약",tags:["점심","예약권장"],rid:"junsei"},
     {lat:34.9890,lng:135.7623,time:"16:00",type:"hotel",name:"체크인 — 온야도 노노",note:"온천 · 휴식 · 비 피해 일찍 복귀",tags:["숙소","예약완료"]},
     {lat:35.0089,lng:135.7677,time:"18:30",type:"meal",name:"가츠구라 산조",note:"히레카츠 · 호텔에서 택시 10분 · 컨시어지 예약",tags:["저녁","예약필요"],rid:"katsukura"},
+    {lat:35.0052,lng:135.7709,time:"20:00",type:"sight",name:"폰토초 골목 산책",note:"등불 거리 · 가츠구라에서 도보 5분 · 비 오면 호텔 온천으로 대체",tags:["관광"]},
    ],
    meals:[
     {tp:"조식",n:"료칸 조식",m:"",s:"ok",st:"포함"},
@@ -1026,6 +1029,7 @@ const DAYS=[
     {lat:34.9890,lng:135.7623,time:"13:30",type:"meal",name:"하마무라",note:"스키야키 코스 · 교토역 이세탄 · 컨시어지 예약",tags:["점심","예약필요"],rid:"hamamura"},
     {lat:34.9890,lng:135.7623,time:"15:00",type:"hotel",name:"호텔 복귀 — 온천·휴식",note:"",tags:["휴식"]},
     {lat:35.0087,lng:135.7684,time:"18:00",type:"meal",name:"토미노조",note:"와규 샤부샤부 · 컨시어지 예약",tags:["저녁","예약권장"],rid:"tominojo"},
+    {lat:34.9875,lng:135.7592,time:"19:30",type:"sight",name:"교토타워 전망대",note:"호텔 도보 5분 · 야경 360도 · 입장료 900엔 · 엘리베이터",tags:["관광"]},
    ],
    meals:[
     {tp:"조식",n:"호텔 뷔페",m:"",s:"ok",st:"포함"},
