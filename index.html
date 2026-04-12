@@ -323,19 +323,19 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 .ov-card-label{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
 .ov-card-val{font-size:15px;font-weight:700;color:var(--text)}
 .ov-card-sub{font-size:13px;color:var(--text3);margin-top:2px}
-.ov-flight-wrap{display:flex;flex-direction:column;gap:10px}
-.ov-flight{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 18px;box-shadow:var(--shadow)}
-.ov-flight-badge{display:inline-block;padding:3px 10px;border-radius:5px;font-size:13px;font-weight:700;margin-bottom:10px}
+.ov-flight-wrap{display:flex;gap:8px}
+.ov-flight{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;box-shadow:var(--shadow);flex:1}
+.ov-flight-badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:12px;font-weight:700;margin-bottom:6px}
 .ov-flight-badge.go{background:var(--blue-bg);color:var(--blue)}
 .ov-flight-badge.back{background:var(--pink-bg);color:var(--pink)}
-.ov-flight-route{display:flex;align-items:center;gap:8px}
+.ov-flight-route{display:flex;align-items:center;gap:6px}
 .ov-flight-airport{text-align:center;flex-shrink:0}
-.ov-flight-time{font-size:22px;font-weight:700;color:var(--text)}
-.ov-flight-city{font-size:13px;color:var(--text3);margin-top:2px}
+.ov-flight-time{font-size:18px;font-weight:700;color:var(--text)}
+.ov-flight-city{font-size:12px;color:var(--text3);margin-top:1px}
 .ov-flight-line{flex:1;text-align:center}
-.ov-flight-no{font-size:13px;color:var(--text3);margin-bottom:4px}
-.ov-flight-arrow{font-size:15px;color:var(--border2);letter-spacing:2px}
-.ov-flight-date{font-size:13px;color:var(--text3);margin-top:8px;text-align:right}
+.ov-flight-no{font-size:12px;color:var(--text3);margin-bottom:2px}
+.ov-flight-arrow{font-size:13px;color:var(--border2);letter-spacing:1px}
+.ov-flight-date{font-size:12px;color:var(--text3);margin-top:4px;text-align:right}
 .ov-stay-wrap{display:flex;flex-direction:column;gap:10px}
 .ov-stay{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow)}
 .ov-stay-nights{flex-shrink:0;width:48px;text-align:center;font-size:13px;color:var(--text3);line-height:1.5;padding-top:2px}
@@ -582,7 +582,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <div class="logo">🌸 진패밀리 교토 <em>가족여행</em> 2026</div>
+    <div class="logo" onclick="switchPage('overview')" style="cursor:pointer">🌸 진패밀리 교토 <em>가족여행</em> 2026</div>
     <div class="topbar-spacer"></div>
     <button class="menu-btn" onclick="toggleMenu()" aria-label="메뉴">☰</button>
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
@@ -756,19 +756,18 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
         <!-- 예약 현황 -->
         <div class="ov-section-title">예약 현황</div>
         <div class="ov-reserve-wrap">
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">항공권 (대한항공 왕복 4인)</div><div class="ov-rs-sub">예약번호 EFMLWJ</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">료칸 Hanaikada (아고다)</div><div class="ov-rs-sub">4/13~4/15 · 2박</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">온야도 노노 교토시치조</div><div class="ov-rs-sub">4/15~4/17 · 2박</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">쇼라이안 점심 (KKday)</div><div class="ov-rs-sub">4/14 13:30 · 4인 · MJG072344</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">여행자 보험 (진동현)</div><div class="ov-rs-sub">82603567841000 · 4/13~4/17</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">4인 가족 여행자 보험</div><div class="ov-rs-sub">아버지 · 어머니 · 여동생</div></div></div>
-          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">공항 전용 밴 (KIX → 료칸)</div><div class="ov-rs-sub">KKday #26KK233070636 · 4/13 디럭스 7인승 · 230,279원</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">복귀 밴 (온야도 노노 → KIX)</div><div class="ov-rs-sub">4/17 15:30 픽업 · KKday 별도 예약 필요</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">기쥬로 (2일차 저녁)</div><div class="ov-rs-sub">4/14 18:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">준세이 (3일차 점심)</div><div class="ov-rs-sub">4/15 14:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">하마무라 (4일차 점심)</div><div class="ov-rs-sub">4/16 13:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">토미노조 (4일차 저녁)</div><div class="ov-rs-sub">4/16 18:00 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">공항 전용 밴 (KIX → 료칸)</div><div class="ov-rs-sub">KKday #26KK233070636 · 4/13 디럭스 7인승 · 230,279원</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">항공권 (대한항공 왕복 4인)</div><div class="ov-rs-sub">예약번호 EFMLWJ</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">쇼라이안 점심 (KKday)</div><div class="ov-rs-sub">4/14 13:30 · 4인 · MJG072344</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">료칸 Hanaikada (아고다)</div><div class="ov-rs-sub">4/13~4/15 · 2박</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">온야도 노노 교토시치조</div><div class="ov-rs-sub">4/15~4/17 · 2박</div></div></div>
+          <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">여행자 보험</div><div class="ov-rs-sub">4인 · 82603567841000 · 4/13~4/17</div></div></div>
         </div>
 
       </div>
@@ -834,7 +833,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12b — 복귀 밴 미예약 추가</div>
+<div class="app-version">v2026.04.12c — 예약 현황 정렬 · 로고 홈 · 항공 카드 축소</div>
 
 </div>
 
