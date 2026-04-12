@@ -59,6 +59,43 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 .npill:hover{background:var(--bg2);border-color:var(--border2)}
 .npill.on{background:var(--text);border-color:var(--text);color:#fff}
 .topbar-spacer{flex:1}
+.menu-btn{
+  width:36px;height:36px;border-radius:8px;border:1px solid var(--border);
+  background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--text2);transition:.15s;flex-shrink:0;
+}
+.menu-btn:hover{background:var(--bg2);border-color:var(--border2)}
+.menu-popover{
+  display:none;position:absolute;top:52px;right:16px;z-index:300;
+  background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  box-shadow:var(--shadow-md);min-width:180px;overflow:hidden;
+}
+.menu-popover.on{display:block}
+.menu-item{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;font-size:13px;font-weight:500;
+  color:var(--text2);cursor:pointer;border:none;background:none;
+  width:100%;font-family:inherit;transition:.15s;text-align:left;
+}
+.menu-item:hover{background:var(--bg2);color:var(--text)}
+.menu-item.on{color:var(--pink);font-weight:700;background:var(--pink-bg)}
+.menu-item+.menu-item{border-top:1px solid var(--bg3)}
+.menu-backdrop{display:none;position:fixed;inset:0;z-index:250}
+.menu-backdrop.on{display:block}
+
+/* ═══ LANG TABS (모달 내 언어 전환) ═══ */
+.lang-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);flex-shrink:0}
+.lang-tab{
+  flex:1;padding:10px 0;text-align:center;
+  font-size:12px;font-weight:600;cursor:pointer;
+  color:var(--text3);border-bottom:2px solid transparent;
+  transition:.15s;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:inherit;
+}
+.lang-tab:hover{color:var(--text2);background:var(--bg2)}
+.lang-tab.on{color:var(--pink);border-bottom-color:var(--pink)}
+.lang-pane{display:none}
+.lang-pane.on{display:block}
 
 /* ═══ DAY SELECTOR — 핵심 UI ═══ */
 .day-selector-wrap{
@@ -542,13 +579,15 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="logo">🌸 진패밀리 교토 <em>가족여행</em> 2026</div>
-    <div class="nav-pills">
-      <button class="npill on" onclick="switchPage('overview')">여행 개요</button>
-      <button class="npill" onclick="switchPage('schedule')">일정표</button>
-      <button class="npill" onclick="switchPage('restaurant')">식당 안내</button>
-      <button class="npill" onclick="switchPage('packing')">준비물</button>
-    </div>
     <div class="topbar-spacer"></div>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="메뉴">☰</button>
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMenu()"></div>
+    <div class="menu-popover" id="menuPopover">
+      <button class="menu-item on" onclick="switchPage('overview')">📋 여행 개요</button>
+      <button class="menu-item" onclick="switchPage('schedule')">📅 일정표</button>
+      <button class="menu-item" onclick="switchPage('restaurant')">🍽️ 식당 안내</button>
+      <button class="menu-item" onclick="switchPage('packing')">🎒 준비물</button>
+    </div>
   </div>
 
   <!-- OVERVIEW PAGE -->
@@ -557,7 +596,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 
       <!-- 히어로 배너 -->
       <div class="ov-hero">
-        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200&q=80" alt="교토" loading="lazy">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Kiyomizu-dera_in_Kyoto-r.jpg/1200px-Kiyomizu-dera_in_Kyoto-r.jpg" alt="교토 기요미즈데라" loading="lazy" onerror="this.style.display='none'">
         <div class="ov-hero-overlay"></div>
         <div class="ov-hero-text">
           <div class="ov-hero-sub">2026 · 가족여행</div>
@@ -685,8 +724,8 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
             <div class="ov-day-n" style="background:#2d7a4a">3일차</div>
             <div class="ov-day-info">
               <div class="ov-day-date">4/15 (수)</div>
-              <div class="ov-day-title">기요미즈데라 (청수사) & 호텔 이동</div>
-              <div class="ov-day-desc">기요미즈데라 (청수사) → 기온 → 온야도 노노 체크인</div>
+              <div class="ov-day-title">은각사 · 철학의 길 & 이동</div>
+              <div class="ov-day-desc">은각사 → 철학의 길 → 난젠지 → 준세이</div>
             </div>
             <div class="ov-day-arrow">›</div>
           </div>
@@ -694,8 +733,8 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
             <div class="ov-day-n" style="background:#a05c10">4일차</div>
             <div class="ov-day-info">
               <div class="ov-day-date">4/16 (목)</div>
-              <div class="ov-day-title">은각사 & 철학의 길</div>
-              <div class="ov-day-desc">은각사 → 철학의 길 → 난젠지 → 준세이</div>
+              <div class="ov-day-title">기요미즈데라 & 기온</div>
+              <div class="ov-day-desc">기요미즈데라 → 산넨자카 → 기온 → 하마무라</div>
             </div>
             <div class="ov-day-arrow">›</div>
           </div>
@@ -718,10 +757,13 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">온야도 노노 교토시치조</div><div class="ov-rs-sub">4/15~4/17 · 2박</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">쇼라이안 점심 (KKday)</div><div class="ov-rs-sub">4/14 13:30 · 4인 · MJG072344</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">여행자 보험 (진동현)</div><div class="ov-rs-sub">82603567841000 · 4/13~4/17</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">공항 전용 밴 (왕복)</div><div class="ov-rs-sub">KKday / Klook 예약 필요</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">하마무라 (3일차 점심)</div><div class="ov-rs-sub">4/15 12:30 · 타베로그 예약 필요</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 075-212-3581</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">4인 가족 여행자 보험</div><div class="ov-rs-sub">아버지 · 어머니 · 여동생</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">공항 전용 밴 (왕복)</div><div class="ov-rs-sub">KKday / Klook 예약 필요</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">기쥬로 (2일차 저녁)</div><div class="ov-rs-sub">4/14 18:30 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">준세이 (3일차 점심)</div><div class="ov-rs-sub">4/15 14:30 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">하마무라 (4일차 점심)</div><div class="ov-rs-sub">4/16 13:30 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">토미노조 (4일차 저녁)</div><div class="ov-rs-sub">4/16 18:00 · 료칸 컨시어지 경유</div></div></div>
         </div>
 
       </div>
@@ -806,69 +848,76 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 <div class="modal-overlay" id="conciergeModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <div class="modal-head">
-      <div class="modal-title">🏨 료칸 컨시어지 — 식당 예약 요청문</div>
+      <div class="modal-title">🏨 식당 예약 요청문</div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
+    <div class="lang-tabs">
+      <button class="lang-tab on" onclick="switchLang('jp')">🇯🇵 日本語</button>
+      <button class="lang-tab" onclick="switchLang('en')">🇬🇧 English</button>
+      <button class="lang-tab" onclick="switchLang('ko')">🇰🇷 한국어</button>
+    </div>
     <div class="modal-body">
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇯🇵 일본어</div>
-        <div class="modal-lang-body">すみません、いくつかのレストランの予約をお願いできますでしょうか。4名での旅行です。
+      <div class="lang-pane on" id="lang-jp">
+        <div class="modal-lang">
+          <div class="modal-lang-body">すみません、いくつかのレストランの予約をお願いできますでしょうか。4名での旅行です。
 
 ① 木寿楼（きじゅろう）
 　4月14日（火）夕食　18:30頃　4名
 
-② 浜むら（はまむら）
-　4月15日（水）昼食　12:30頃　4名
-　京都駅伊勢丹店
+② 順正（じゅんせい）
+　4月15日（水）昼食　14:30頃　4名
 
 ③ かつくら 三条店
 　4月15日（水）夕食　18:30頃　4名
 
-④ 順正（じゅんせい）
+④ 浜むら（はまむら）
 　4月16日（木）昼食　13:30頃　4名
+　京都駅伊勢丹店
 
 ⑤ 富之上（とみのじょう）
 　4月16日（木）夕食　18:00頃　4名
 
 もしご予約が難しい場合は、代わりの店をご紹介いただけますと幸いです。
 どうぞよろしくお願いいたします。</div>
+        </div>
       </div>
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇬🇧 영어</div>
-        <div class="modal-lang-body">Excuse me, could you help us make restaurant reservations? We are a group of 4.
+      <div class="lang-pane" id="lang-en">
+        <div class="modal-lang">
+          <div class="modal-lang-body">Excuse me, could you help us make restaurant reservations? We are a group of 4.
 
-① Kijurou
+① Kijurou (木寿楼)
 　April 14 (Tue), dinner around 18:30, 4 people
 
-② Hamamura (Kyoto Station Isetan)
-　April 15 (Wed), lunch around 12:30, 4 people
+② Junsei (順正), near Nanzenji
+　April 15 (Wed), lunch around 14:30, 4 people
 
-③ Katsukura Sanjo
+③ Katsukura Sanjo (かつくら三条店)
 　April 15 (Wed), dinner around 18:30, 4 people
 
-④ Junsei
+④ Hamamura (浜むら), Kyoto Stn Isetan
 　April 16 (Thu), lunch around 13:30, 4 people
 
-⑤ Tominojo
+⑤ Tominojo (富之上)
 　April 16 (Thu), dinner around 18:00, 4 people
 
 If any reservation is unavailable, we would appreciate an alternative recommendation.
 Thank you so much for your help.</div>
+        </div>
       </div>
-      <div class="modal-lang">
-        <div class="modal-lang-head">🇰🇷 한국어 (참고용)</div>
-        <div class="modal-lang-body">실례합니다, 저희 대신 식당 예약을 부탁드릴 수 있을까요? 4인 가족입니다.
+      <div class="lang-pane" id="lang-ko">
+        <div class="modal-lang">
+          <div class="modal-lang-body">실례합니다, 저희 대신 식당 예약을 부탁드릴 수 있을까요? 4인 가족입니다.
 
 ① 기쥬로 (木寿楼)
 　4월 14일 (화) 저녁 18:30경, 4명
 
-② 하마무라 (浜むら) — 교토역 이세탄점
-　4월 15일 (수) 점심 12:30경, 4명
+② 준세이 (順正) — 난젠지 옆
+　4월 15일 (수) 점심 14:30경, 4명
 
 ③ 가츠구라 산조점 (かつくら三条店)
 　4월 15일 (수) 저녁 18:30경, 4명
 
-④ 준세이 (順正)
+④ 하마무라 (浜むら) — 교토역 이세탄점
 　4월 16일 (목) 점심 13:30경, 4명
 
 ⑤ 토미노조 (富之上)
@@ -876,6 +925,7 @@ Thank you so much for your help.</div>
 
 예약이 어려운 곳이 있으면 대안 식당을 추천해 주시면 감사하겠습니다.
 잘 부탁드립니다.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -886,18 +936,18 @@ Thank you so much for your help.</div>
 const RESTAURANTS=[
   {id:"yoshimura",name:"아라시야마 요시무라",nameEn:"Arashiyama Yoshimura",color:"#c94070",day:"1일차",meal:"점심",menu:["메밀 소바★","덴푸라 소바","자루소바"],tip:"도게츠교 2층 창가 자리 요청. 오픈(11:00) 직후 입장 시 웨이팅 없음.",tel:"075-863-5700",reserve:"예약 불필요",rCls:"r-no",reserveHow:"현장 방문. 오픈 직후 권장.",gmaps:"https://www.google.com/maps/search/Arashiyama+Yoshimura+Kyoto"},
   {id:"shoraian",name:"쇼라이안",nameEn:"Shoraian",color:"#2563a8",day:"2일차",meal:"점심",menu:["쇼후 코스 7,000엔★","쇼라이 코스 5,500엔","유두부","두부 그라탱"],tip:"KKday 예약 MJG072344. 13:30 입장. 15분 지각 시 취소. 쇼후 코스 — 와규 미니 스테이크 + 유두부 무제한.",tel:"075-861-0123",reserve:"예약 완료 ✓",rCls:"r-ok",reserveHow:"KKday MJG072344. 모바일 바우처 제시.",gmaps:"https://www.google.com/maps/search/Shoraian+Arashiyama+Kyoto"},
-  {id:"kijurou",name:"기쥬로",nameEn:"Kijurou",color:"#2563a8",day:"2일차",meal:"저녁",menu:["와규 리브로인 스테이크★","교토 와규 세트"],tip:"아라시야마 료칸 도보 5분. 와규 미디엄 추천.",tel:"050-5487-3279",reserve:"예약 권장",rCls:"r-req",reserveHow:"전화: 050-5487-3279",gmaps:"https://www.google.com/maps/search/Kijurou+Arashiyama+Kyoto"},
-  {id:"hamamura",name:"하마무라",nameEn:"Hamamura",color:"#2d7a4a",day:"3일차",meal:"점심",menu:["와규 스키야키 코스★","샤부샤부 코스"],tip:"교토역 이세탄 내. 직원이 직접 구워줌. 달콤한 간장 육수에 생달걀 찍어 먹기.",tel:"075-211-7255",reserve:"예약 필요",rCls:"r-req",reserveHow:"타베로그 또는 전화 075-211-7255",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
-  {id:"katsukura",name:"가츠구라 산조",nameEn:"Katsukura Sanjo",color:"#2d7a4a",day:"3일차",meal:"저녁",menu:["히레카츠 정식★","로스카츠 정식"],tip:"참깨 직접 갈아서 소스 만드는 게 포인트! 히레카츠(안심)이 제일 부드러움. 밥·된장국·양배추 무제한.",tel:"075-212-3581",reserve:"예약 필요",rCls:"r-req",reserveHow:"전화: 075-212-3581 / 4/15(수) 18:30 / 4명",gmaps:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
-  {id:"junsei",name:"준세이",nameEn:"Junsei",color:"#a05c10",day:"4일차",meal:"점심",menu:["유두부 히토토오리 세트★","두부 코스"],tip:"에도 시대 건물에서 정원 보며 먹는 두부. 난젠지 도보 1분. 목요일 11:00~14:30.",tel:"075-761-2311",reserve:"예약 권장",rCls:"r-req",reserveHow:"전화: 075-761-2311 / 4/16(목) 13:30 / 4명",gmaps:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
-  {id:"tominojo",name:"토미노조",nameEn:"Tominojo",color:"#a05c10",day:"4일차",meal:"저녁",menu:["교토 와규 샤부샤부★","와규 스키야키"],tip:"고기 무게 직접 보여주며 투명 서비스. 얇게 썬 와규를 육수에 살짝 담가 먹는 방식.",tel:"080-3759-1757",reserve:"예약 권장",rCls:"r-req",reserveHow:"전화: 080-3759-1757 / 4/16(목) 18:00 / 4명",gmaps:"https://www.google.com/maps/search/Tominojo+Kyoto"},
+  {id:"kijurou",name:"기쥬로",nameEn:"Kijurou",color:"#2563a8",day:"2일차",meal:"저녁",menu:["와규 리브로인 스테이크★","교토 와규 세트"],tip:"아라시야마 료칸 도보 5분. 와규 미디엄 추천.",tel:"050-5487-3279",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/14(화) 18:30 / 4명 · 비상 전화 050-5487-3279",gmaps:"https://www.google.com/maps/search/Kijurou+Arashiyama+Kyoto"},
+  {id:"hamamura",name:"하마무라",nameEn:"Hamamura",color:"#a05c10",day:"4일차",meal:"점심",menu:["와규 스키야키 코스★","샤부샤부 코스"],tip:"교토역 이세탄 내. 직원이 직접 구워줌. 달콤한 간장 육수에 생달걀 찍어 먹기.",tel:"075-211-7255",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/16(목) 13:30 / 4명 · 비상 전화 075-211-7255",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
+  {id:"katsukura",name:"가츠구라 산조",nameEn:"Katsukura Sanjo",color:"#2d7a4a",day:"3일차",meal:"저녁",menu:["히레카츠 정식★","로스카츠 정식"],tip:"참깨 직접 갈아서 소스 만드는 게 포인트! 히레카츠(안심)이 제일 부드러움. 밥·된장국·양배추 무제한.",tel:"075-212-3581",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/15(수) 18:30 / 4명 · 비상 전화 075-212-3581",gmaps:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
+  {id:"junsei",name:"준세이",nameEn:"Junsei",color:"#2d7a4a",day:"3일차",meal:"점심",menu:["유두부 히토토오리 세트★","두부 코스"],tip:"에도 시대 건물에서 정원 보며 먹는 두부. 난젠지 도보 1분. 목요일 11:00~14:30.",tel:"075-761-2311",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/15(수) 14:30 / 4명 · 비상 전화 075-761-2311",gmaps:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
+  {id:"tominojo",name:"토미노조",nameEn:"Tominojo",color:"#a05c10",day:"4일차",meal:"저녁",menu:["교토 와규 샤부샤부★","와규 스키야키"],tip:"고기 무게 직접 보여주며 투명 서비스. 얇게 썬 와규를 육수에 살짝 담가 먹는 방식.",tel:"080-3759-1757",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/16(목) 18:00 / 4명 · 비상 전화 080-3759-1757",gmaps:"https://www.google.com/maps/search/Tominojo+Kyoto"},
   {id:"gyukatsu",name:"규카츠 교토 카츠규",nameEn:"Gyukatsu Kyoto Katsugyu",color:"#1a6e6e",day:"5일차",meal:"점심",menu:["프리미엄 와규 규카츠★"],tip:"교토역 도보 2분. 돌판에 직접 구워 먹기. 오픈(11:00) 직후 권장.",tel:"-",reserve:"예약 불필요",rCls:"r-no",reserveHow:"현장 방문. 오픈 직후 권장.",gmaps:"https://www.google.com/maps/search/Gyukatsu+Kyoto+Katsugyu+Kyoto+Station"},
 ];
 
 const DAYS=[
   {n:1,date:"4/13",dow:"월",title:"도착 & 아라시야마",color:"#c94070",
-   wx:{i:"☁️",t:"19°C / 13°C",d:"흐림 · 일교차 6°C"},
-   outfit:[{i:"👔",t:"얇은 긴팔 + 가디건 or 바람막이"},{i:"👟",t:"편한 워킹화 (평지 산책)"},{i:"☂️",t:"접이식 우산 지참"},{i:"⚠️",t:"저녁 13°C — 겉옷 필수",w:1}],
+   wx:{i:"⛅",t:"25°C / 11°C",d:"흐림 후 갬 · 일교차 14°C"},
+   outfit:[{i:"👔",t:"얇은 긴팔 + 가디건 or 바람막이"},{i:"👟",t:"편한 워킹화 (평지 산책)"},{i:"☂️",t:"접이식 우산 지참"},{i:"⚠️",t:"저녁 11°C — 겉옷 필수",w:1}],
    gmaps:"https://www.google.com/maps/dir/Gimpo+International+Airport/Kansai+International+Airport/Arashiyama+Yoshimura+Kyoto/Togetsukyo+Bridge/Hanaikada+Ryokan+Arashiyama",
    items:[
     {lat:37.4536,lng:126.8958,time:"06:00",type:"move",name:"집 출발",note:"서울시 금천구 시흥동 → 김포공항 이동. 택시 or 대중교통",tags:["이동"]},
@@ -905,11 +955,11 @@ const DAYS=[
     {lat:37.5583,lng:126.7944,time:"07:30",type:"move",name:"출국 수속 & 탑승구 이동",note:"출국심사 → 면세구역 → 탑승구 이동",tags:["이동"]},
     {lat:37.5583,lng:126.7944,time:"09:15",type:"move",name:"KE2117 탑승 출발",note:"김포 → 간사이 직항 1시간 40분",tags:["이동"]},
     {lat:34.4347,lng:135.244,time:"10:55",type:"move",name:"간사이 공항 도착",note:"입국심사 → 수하물 수령 → 전용 밴 탑승",tags:["이동","예약완료"]},
-    {lat:34.4347,lng:135.244,time:"11:30",type:"move",name:"전용 밴 출발 → 아라시야마",note:"공항 → 아라시야마 약 90분 소요",tags:["이동","예약완료"]},
-    {lat:35.0136,lng:135.6773,time:"13:00",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
+    {lat:34.4347,lng:135.244,time:"11:45",type:"move",name:"전용 밴 출발 → 아라시야마",note:"입국심사 여유 확보 · 공항 → 아라시야마 약 90분 소요",tags:["이동","예약완료"]},
+    {lat:35.0136,lng:135.6773,time:"13:15",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
-    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 하마무라 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 준세이 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
+    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 준세이 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 하마무라 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
     {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키",note:"객실 또는 개별실",tags:["저녁","포함"]},
    ],
    meals:[
@@ -918,65 +968,67 @@ const DAYS=[
     {tp:"저녁",n:"료칸 가이세키",m:"코스 요리",s:"ok",st:"포함"},
    ]},
   {n:2,date:"4/14",dow:"화",title:"금각사 & 아라시야마",color:"#2563a8",
-   wx:{i:"⛅",t:"23°C / 12°C",d:"맑음 · 일교차 11°C"},
-   outfit:[{i:"👕",t:"반팔 + 얇은 긴팔 레이어링"},{i:"🧥",t:"가디건 필수 (아침·저녁)"},{i:"👟",t:"워킹화 — 금각사·대나무숲"},{i:"🧴",t:"선크림 SPF50+"},{i:"⚠️",t:"아침 12°C — 외출 시 겉옷",w:1}],
+   wx:{i:"☀️",t:"24°C / 14°C",d:"맑음 · 일교차 10°C"},
+   outfit:[{i:"👕",t:"반팔 + 얇은 긴팔 레이어링"},{i:"🧥",t:"가디건 필수 (아침·저녁)"},{i:"👟",t:"워킹화 — 금각사·대나무숲"},{i:"🧴",t:"선크림 SPF50+"},{i:"⚠️",t:"아침 14°C — 외출 시 겉옷",w:1}],
    gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan+Arashiyama/Kinkakuji+Temple/Arashiyama+Bamboo+Forest/Tenryuji+Temple/Shoraian+Arashiyama/Kijurou+Arashiyama",
    items:[
     {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","포함"]},
-    {lat:35.0394,lng:135.7292,time:"09:30",type:"sight",name:"금각사 (킨카쿠지)",note:"오픈 직후 방문. 입장료 500엔",tags:["관광"]},
+    {lat:35.0394,lng:135.7292,time:"10:00",type:"sight",name:"금각사 (킨카쿠지)",note:"료칸 09:20 출발 · 택시 25분 · 입장료 500엔",tags:["관광"]},
     {lat:35.0168,lng:135.6713,time:"11:30",type:"sight",name:"대나무숲 — 인력거 투어",note:"에비스야. 앉아서 이동 ✓",tags:["관광"]},
     {lat:35.0158,lng:135.6738,time:"12:00",type:"sight",name:"텐류지 정원",note:"완전 평지 ✓",tags:["관광"]},
-    {lat:35.0144,lng:135.6701,time:"13:00",type:"meal",name:"쇼라이안",note:"두부 가이세키 MJG072344",tags:["점심","예약완료"],rid:"shoraian"},
+    {lat:35.0144,lng:135.6701,time:"13:30",type:"meal",name:"쇼라이안",note:"두부 가이세키 MJG072344 · 15분 지각 시 취소",tags:["점심","예약완료"],rid:"shoraian"},
     {lat:35.0113,lng:135.6771,time:"14:30",type:"hotel",name:"료칸 복귀 — 온천·낮잠",note:"",tags:["휴식"]},
-    {lat:35.0204,lng:135.6805,time:"18:30",type:"meal",name:"기쥬로",note:"와규 스테이크 / 도보 5분",tags:["저녁","예약권장"],rid:"kijurou"},
+    {lat:35.0204,lng:135.6805,time:"18:30",type:"meal",name:"기쥬로",note:"와규 스테이크 · 료칸 도보 5분 · 컨시어지 예약",tags:["저녁","예약권장"],rid:"kijurou"},
    ],
    meals:[
     {tp:"조식",n:"료칸 조식",m:"일본식",s:"ok",st:"포함"},
     {tp:"점심",n:"쇼라이안",m:"두부 가이세키 프리미엄",s:"ok",st:"예약완료 ✓",rid:"shoraian",gm:"https://www.google.com/maps/search/Shoraian+Arashiyama"},
-    {tp:"저녁",n:"기쥬로",m:"와규 스테이크",s:"req",st:"예약권장",rid:"kijurou",gm:"https://www.google.com/maps/search/Kijurou+Arashiyama"},
+    {tp:"저녁",n:"기쥬로",m:"와규 스테이크",s:"req",st:"컨시어지 경유",rid:"kijurou",gm:"https://www.google.com/maps/search/Kijurou+Arashiyama"},
    ]},
-  {n:3,date:"4/15",dow:"수",title:"기요미즈데라 (청수사) & 이동",color:"#2d7a4a",
-   wx:{i:"☀️",t:"27°C / 13°C",d:"맑고 따뜻 · 일교차 14°C"},
-   outfit:[{i:"👕",t:"반팔 (낮 최고 27°C)"},{i:"🧥",t:"얇은 재킷 필수"},{i:"👟",t:"미끄럼방지 신발 ★★★"},{i:"🧴",t:"선크림 · 모자 · 선글라스"},{i:"⚠️",t:"산넨자카 돌계단 미끄러움!",w:1}],
-   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan/Hamamura+Kyoto/Kiyomizudera/Sannenzaka/Gion+Hanamikoji/Onyado+Nono+Kyoto",
+  {n:3,date:"4/15",dow:"수",title:"은각사 · 철학의 길 & 이동",color:"#2d7a4a",
+   wx:{i:"🌧️",t:"20°C / 10°C",d:"비 80% · 오후 소강 가능 · 일교차 10°C"},
+   outfit:[{i:"👔",t:"긴팔 + 얇은 재킷 (낮 최고 20°C)"},{i:"☂️",t:"우산 필수 · 우비 권장"},{i:"👟",t:"워킹화 — 평지 위주 ✓"},{i:"🎒",t:"방수 가방 커버 · 수건"},{i:"⚠️",t:"비 오는 날 — 무리하지 않기",w:1}],
+   gmaps:"https://www.google.com/maps/dir/Hanaikada+Ryokan/Onyado+Nono+Kyoto/Ginkakuji+Temple/Philosophers+Path+Kyoto/Nanzenji+Temple/Junsei+Nanzenji",
    items:[
     {lat:35.0113,lng:135.6771,time:"09:00",type:"meal",name:"료칸 조식",note:"",tags:["조식","포함"]},
-    {lat:35.0113,lng:135.6771,time:"10:00",type:"move",name:"체크아웃 & 택시 2대",note:"아라시야마 → 교토 시내",tags:["이동"]},
-    {lat:34.9890,lng:135.7623,time:"12:30",type:"meal",name:"하마무라",note:"스키야키 코스 / 교토역 이세탄",tags:["점심","예약필요"],rid:"hamamura"},
-    {lat:34.9947,lng:135.7847,time:"13:30",type:"sight",name:"기요미즈데라 (청수사)",note:"입장료 500엔",tags:["관광"]},
-    {lat:34.9967,lng:135.7810,time:"14:30",type:"sight",name:"산넨자카 · 니넨자카",note:"⚠ 돌계단 주의!",tags:["관광"]},
-    {lat:35.0038,lng:135.7750,time:"16:00",type:"sight",name:"기온 하나미코지",note:"평지 ✓",tags:["관광"]},
-    {lat:35.0037,lng:135.7786,time:"16:30",type:"sight",name:"야사카 신사",note:"무료 입장",tags:["관광"]},
-    {lat:34.9890,lng:135.7623,time:"18:30",type:"hotel",name:"체크인 — 온야도 노노",note:"",tags:["숙소","예약완료"]},
-    {lat:35.0089,lng:135.7677,time:"저녁",type:"meal",name:"가츠구라 산조",note:"히레카츠 / 택시 10분",tags:["저녁","예약필요"],rid:"katsukura"},
+    {lat:35.0113,lng:135.6771,time:"10:00",type:"move",name:"체크아웃 & 택시 2대",note:"아라시야마 → 교토 시내 (약 45분)",tags:["이동"]},
+    {lat:34.9890,lng:135.7623,time:"11:00",type:"move",name:"온야도 노노 짐 얼리 드롭",note:"프런트 보관 요청 · 체크인 전 맡기기",tags:["이동"]},
+    {lat:34.9890,lng:135.7623,time:"11:30",type:"move",name:"택시 → 은각사",note:"약 25분 / 약 1,500엔",tags:["이동"]},
+    {lat:35.0270,lng:135.7982,time:"12:00",type:"sight",name:"은각사 (긴카쿠지)",note:"모래정원 · 이끼정원 · 비에 젖은 이끼 운치 · 평지 ✓",tags:["관광"]},
+    {lat:35.0215,lng:135.7943,time:"13:00",type:"sight",name:"철학의 길",note:"2km 평지 ✓ · 비에 젖은 벚꽃길",tags:["관광"]},
+    {lat:35.0114,lng:135.7945,time:"14:00",type:"sight",name:"난젠지",note:"벽돌 수로 포토스팟 · 비와 벽돌 조합",tags:["관광"]},
+    {lat:35.0114,lng:135.7901,time:"14:30",type:"meal",name:"준세이",note:"유두부 코스 · 난젠지 도보 1분 · 컨시어지 예약",tags:["점심","예약권장"],rid:"junsei"},
+    {lat:34.9890,lng:135.7623,time:"16:00",type:"hotel",name:"체크인 — 온야도 노노",note:"온천 · 휴식 · 비 피해 일찍 복귀",tags:["숙소","예약완료"]},
+    {lat:35.0089,lng:135.7677,time:"18:30",type:"meal",name:"가츠구라 산조",note:"히레카츠 · 호텔에서 택시 10분 · 컨시어지 예약",tags:["저녁","예약필요"],rid:"katsukura"},
    ],
    meals:[
     {tp:"조식",n:"료칸 조식",m:"",s:"ok",st:"포함"},
-    {tp:"점심",n:"하마무라",m:"스키야키 코스",s:"req",st:"예약필요",rid:"hamamura",gm:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
-    {tp:"저녁",n:"가츠구라 산조",m:"히레카츠",s:"req",st:"예약필요",rid:"katsukura",gm:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
+    {tp:"점심",n:"준세이",m:"유두부 코스",s:"req",st:"컨시어지 경유",rid:"junsei",gm:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
+    {tp:"저녁",n:"가츠구라 산조",m:"히레카츠",s:"req",st:"컨시어지 경유",rid:"katsukura",gm:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
    ]},
-  {n:4,date:"4/16",dow:"목",title:"은각사 & 철학의 길",color:"#a05c10",
-   wx:{i:"☀️",t:"26°C / 14°C",d:"맑음 · 일교차 12°C"},
-   outfit:[{i:"👕",t:"반팔 + 얇은 긴팔"},{i:"🧥",t:"얇은 재킷"},{i:"👟",t:"철학의 길 2km — 워킹화"},{i:"🦵",t:"무릎 보호대 (아버님)"},{i:"🧴",t:"선크림 · 모자"}],
-   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Ginkakuji+Temple/Philosophers+Path+Kyoto/Nanzenji+Temple/Junsei+Nanzenji/Tominojo+Kyoto",
+  {n:4,date:"4/16",dow:"목",title:"기요미즈데라 & 기온",color:"#a05c10",
+   wx:{i:"☀️",t:"25°C / 13°C",d:"맑음 · 비 개임 · 일교차 12°C"},
+   outfit:[{i:"👕",t:"반팔 + 얇은 긴팔"},{i:"🧥",t:"얇은 재킷"},{i:"👟",t:"미끄럼방지 신발 ★★★"},{i:"🦵",t:"무릎 보호대 (아버님)"},{i:"🧴",t:"선크림 · 모자"}],
+   gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Kiyomizudera/Sannenzaka/Gion+Hanamikoji/Yasaka+Shrine/Hamamura+Kyoto/Tominojo+Kyoto",
    items:[
     {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","포함"]},
-    {lat:34.9890,lng:135.7623,time:"09:30",type:"move",name:"택시 → 은각사",note:"약 25분 / 약 1,500엔",tags:["이동"]},
-    {lat:35.0270,lng:135.7982,time:"10:00",type:"sight",name:"은각사 (긴카쿠지)",note:"모래정원 · 이끼정원. 완전 평지 ✓",tags:["관광"]},
-    {lat:35.0215,lng:135.7943,time:"11:15",type:"sight",name:"철학의 길",note:"2km 평지 ✓",tags:["관광"]},
-    {lat:35.0114,lng:135.7945,time:"12:30",type:"sight",name:"난젠지",note:"벽돌 수로 포토스팟",tags:["관광"]},
-    {lat:35.0114,lng:135.7901,time:"13:30",type:"meal",name:"준세이",note:"유두부 코스 / 도보 1분",tags:["점심","예약권장"],rid:"junsei"},
-    {lat:34.9890,lng:135.7623,time:"15:00",type:"hotel",name:"호텔 복귀 — 온천·휴식",note:"택시 25분",tags:["휴식"]},
-    {lat:35.0087,lng:135.7684,time:"18:00",type:"meal",name:"토미노조",note:"와규 샤부샤부",tags:["저녁","예약권장"],rid:"tominojo"},
+    {lat:34.9890,lng:135.7623,time:"09:30",type:"move",name:"택시 → 기요미즈데라",note:"약 15분",tags:["이동"]},
+    {lat:34.9947,lng:135.7847,time:"10:00",type:"sight",name:"기요미즈데라 (청수사)",note:"입장료 500엔 · 맑은 날 전망!",tags:["관광"]},
+    {lat:34.9967,lng:135.7810,time:"11:00",type:"sight",name:"산넨자카 · 니넨자카",note:"마른 돌계단 — 어제보다 안전",tags:["관광"]},
+    {lat:35.0038,lng:135.7750,time:"12:00",type:"sight",name:"기온 하나미코지",note:"평지 ✓",tags:["관광"]},
+    {lat:35.0037,lng:135.7786,time:"12:30",type:"sight",name:"야사카 신사",note:"무료 입장",tags:["관광"]},
+    {lat:34.9890,lng:135.7623,time:"13:30",type:"meal",name:"하마무라",note:"스키야키 코스 · 교토역 이세탄 · 컨시어지 예약",tags:["점심","예약필요"],rid:"hamamura"},
+    {lat:34.9890,lng:135.7623,time:"15:00",type:"hotel",name:"호텔 복귀 — 온천·휴식",note:"",tags:["휴식"]},
+    {lat:35.0087,lng:135.7684,time:"18:00",type:"meal",name:"토미노조",note:"와규 샤부샤부 · 컨시어지 예약",tags:["저녁","예약권장"],rid:"tominojo"},
    ],
    meals:[
     {tp:"조식",n:"호텔 뷔페",m:"",s:"ok",st:"포함"},
-    {tp:"점심",n:"준세이",m:"유두부 코스",s:"req",st:"예약권장",rid:"junsei",gm:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
-    {tp:"저녁",n:"토미노조",m:"와규 샤부샤부",s:"req",st:"예약권장",rid:"tominojo",gm:"https://www.google.com/maps/search/Tominojo+Kyoto"},
+    {tp:"점심",n:"하마무라",m:"스키야키 코스",s:"req",st:"컨시어지 경유",rid:"hamamura",gm:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
+    {tp:"저녁",n:"토미노조",m:"와규 샤부샤부",s:"req",st:"컨시어지 경유",rid:"tominojo",gm:"https://www.google.com/maps/search/Tominojo+Kyoto"},
    ]},
   {n:5,date:"4/17",dow:"금",title:"니시키시장 & 귀국",color:"#1a6e6e",
-   wx:{i:"⛅",t:"22°C / 14°C",d:"쾌청 · 일교차 8°C"},
-   outfit:[{i:"👔",t:"편안한 캐주얼"},{i:"🧥",t:"얇은 재킷 (공항 냉방)"},{i:"🎒",t:"기내 반입 가방 준비"},{i:"⚠️",t:"15:30 픽업 절대 엄수!",w:1}],
+   wx:{i:"⛅",t:"27°C / 12°C",d:"맑음 · 일교차 15°C"},
+   outfit:[{i:"👔",t:"편안한 캐주얼 (낮 27°C)"},{i:"🧥",t:"얇은 재킷 (공항 냉방)"},{i:"🎒",t:"기내 반입 가방 준비"},{i:"⚠️",t:"15:30 픽업 절대 엄수!",w:1}],
    gmaps:"https://www.google.com/maps/dir/Onyado+Nono+Kyoto/Nishiki+Market/Takashimaya+Kyoto/Gyukatsu+Kyoto+Katsugyu/Kansai+International+Airport",
    items:[
     {lat:34.9890,lng:135.7623,time:"09:00",type:"meal",name:"호텔 조식 뷔페",note:"",tags:["조식","포함"]},
@@ -1011,22 +1063,22 @@ const PLACE_IMGS={
   '집 출발':          {src:'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=800&q=80',cap:'서울시 금천구 시흥동 출발'},
   '김포공항 도착 & 체크인':{src:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80',cap:'김포국제공항 국제선 터미널'},
   'KE2117 탑승 출발':  {src:'https://images.unsplash.com/photo-1569629743817-70d8db6c323b?w=800&q=80',cap:'대한항공 김포 → 간사이 직항'},
-  '간사이 공항 도착':   {src:'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&q=80',cap:'간사이국제공항'},
-  '아라시야마 요시무라': {src:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80',cap:'도게츠교 전망 소바 레스토랑'},
-  '도게츠교 강변 산책': {src:'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&q=80',cap:'아라시야마 도게츠교'},
-  '체크인 — 료칸 Hanaikada':{src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'아라시야마 료칸 체크인'},
-  '금각사 (킨카쿠지)':  {src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'금각사 (킨카쿠지) — 황금빛 누각'},
-  '대나무숲 — 인력거 투어':{src:'https://images.unsplash.com/photo-1624601573012-efb68931cc8f?w=800&q=80',cap:'아라시야마 대나무숲 인력거 투어'},
-  '텐류지 정원':        {src:'https://images.unsplash.com/photo-1598449426314-8b02525e8733?w=800&q=80',cap:'텐류지 정원 — 세계문화유산'},
-  '기요미즈데라 (청수사)':{src:'https://images.unsplash.com/photo-1582379994703-57f4b09b83e2?w=800&q=80',cap:'기요미즈데라 (청수사) — 교토 대표 사찰'},
-  '산넨자카 · 니넨자카': {src:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80',cap:'산넨자카 · 니넨자카 돌길'},
-  '기온 하나미코지':    {src:'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=800&q=80',cap:'기온 하나미코지 — 게이샤 거리'},
-  '야사카 신사':        {src:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80',cap:'야사카 신사 — 무료 입장'},
-  '체크인 — 온야도 노노':{src:'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80',cap:'온야도 노노 교토시치조 체크인'},
-  '은각사 (긴카쿠지)':  {src:'https://images.unsplash.com/photo-1589452271712-64b8a66c7b71?w=800&q=80',cap:'은각사 (긴카쿠지) — 모래정원과 이끼정원'},
-  '철학의 길':          {src:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80',cap:'철학의 길 — 2km 봄 벚꽃 산책로'},
-  '난젠지':             {src:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',cap:'난젠지 — 벽돌 수로 포토스팟'},
-  '니시키시장':         {src:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80',cap:'니시키시장 — 교토의 부엌'},
+  '간사이 공항 도착':   {src:'https://images.unsplash.com/photo-1569629743817-70d8db6c323b?w=800&q=80',cap:'간사이국제공항'},
+  '아라시야마 요시무라': {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg/800px-Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg',cap:'도게츠교 전망 소바 레스토랑'},
+  '도게츠교 강변 산책': {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg/800px-Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg',cap:'아라시야마 도게츠교'},
+  '체크인 — 료칸 Hanaikada':{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Arashiyama-Bamboo-Grove-Sunset.jpg/800px-Arashiyama-Bamboo-Grove-Sunset.jpg',cap:'아라시야마 료칸 Hanaikada'},
+  '금각사 (킨카쿠지)':  {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Kinkaku-ji_the_Golden_Temple_in_Kyoto_overlooking_the_lake_-_high_rez.JPG/800px-Kinkaku-ji_the_Golden_Temple_in_Kyoto_overlooking_the_lake_-_high_rez.JPG',cap:'금각사 (킨카쿠지) — 황금빛 누각'},
+  '대나무숲 — 인력거 투어':{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Arashiyama-Bamboo-Grove-Sunset.jpg/800px-Arashiyama-Bamboo-Grove-Sunset.jpg',cap:'아라시야마 대나무숲 인력거 투어'},
+  '텐류지 정원':        {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Tenryuji_Kyoto.jpg/800px-Tenryuji_Kyoto.jpg',cap:'텐류지 소겐치 정원 — 세계문화유산'},
+  '기요미즈데라 (청수사)':{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Kyoto-Kiyomizu_Temple-2.JPG/800px-Kyoto-Kiyomizu_Temple-2.JPG',cap:'기요미즈데라 (청수사) — 교토 대표 사찰'},
+  '산넨자카 · 니넨자카': {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Sannenzaka_Kyoto.jpg/800px-Sannenzaka_Kyoto.jpg',cap:'산넨자카 · 니넨자카 돌길'},
+  '기온 하나미코지':    {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/150124_Gion_Kyoto_Japan02s3.jpg/800px-150124_Gion_Kyoto_Japan02s3.jpg',cap:'기온 하나미코지 — 게이샤 거리'},
+  '야사카 신사':        {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Nishiromon_Gate%2C_Yasaka_Shrine%2C_Kyoto%2C_West_view_20190416_1.jpg/800px-Nishiromon_Gate%2C_Yasaka_Shrine%2C_Kyoto%2C_West_view_20190416_1.jpg',cap:'야사카 신사 니시로몬 문 — 무료 입장'},
+  '체크인 — 온야도 노노':{src:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Kyoto-Kiyomizu_Temple-2.JPG/800px-Kyoto-Kiyomizu_Temple-2.JPG',cap:'온야도 노노 교토시치조 체크인'},
+  '은각사 (긴카쿠지)':  {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Ginkaku-ji_with_sand_garden.JPG/800px-Ginkaku-ji_with_sand_garden.JPG',cap:'은각사 (긴카쿠지) — 모래정원과 이끼정원'},
+  '철학의 길':          {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Tetsugaku_no_michi_-_DSC01221.jpg/800px-Tetsugaku_no_michi_-_DSC01221.jpg',cap:'철학의 길 — 2km 봄 벚꽃 산책로'},
+  '난젠지':             {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Nanzenji-suirokaku.JPG/800px-Nanzenji-suirokaku.JPG',cap:'난젠지 — 벽돌 수로각 (스이로카쿠)'},
+  '니시키시장':         {src:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Nishiki_Market_Kyoto_01.jpg/800px-Nishiki_Market_Kyoto_01.jpg',cap:'니시키시장 — 교토의 부엌'},
 };
 
 function openImgModal(name, note){
@@ -1053,17 +1105,38 @@ function closeModal(){
   document.getElementById('conciergeModal').classList.remove('on');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
+/* ══ MENU POPOVER ══ */
+function toggleMenu(){
+  document.getElementById('menuPopover').classList.toggle('on');
+  document.getElementById('menuBackdrop').classList.toggle('on');
+}
+
+/* ══ LANG TABS (예약 요청문) ══ */
+function switchLang(lang){
+  document.querySelectorAll('.lang-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.lang-pane').forEach(p=>p.classList.remove('on'));
+  const pane=document.getElementById('lang-'+lang);
+  if(pane) pane.classList.add('on');
+  const labels={jp:'🇯🇵 日本語',en:'🇬🇧 English',ko:'🇰🇷 한국어'};
+  document.querySelectorAll('.lang-tab').forEach(t=>{
+    if(t.textContent.trim()===labels[lang]) t.classList.add('on');
+  });
+}
+
+/* ══ PAGE SWITCH ══ */
 function switchPage(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('on'));
   const pg = document.getElementById('page-'+p);
   if(pg) pg.classList.add('on');
-  const labels = {overview:'여행 개요',schedule:'일정표',restaurant:'식당 안내',packing:'준비물'};
-  document.querySelectorAll('.npill').forEach(b=>b.classList.toggle('on', b.textContent.trim()===labels[p]));
+  const pages=['overview','schedule','restaurant','packing'];
+  document.querySelectorAll('.menu-item').forEach((b,i)=>b.classList.toggle('on',pages[i]===p));
   if(p==='restaurant') renderRest();
   if(p==='packing') renderPacking();
   if(p==='schedule'&&window.gmap) google.maps.event.trigger(window.gmap,'resize');
+  // 메뉴 닫기
+  document.getElementById('menuPopover').classList.remove('on');
+  document.getElementById('menuBackdrop').classList.remove('on');
 }
 
 /* ══ CONTENT TAB SWITCH ══ */
@@ -1151,26 +1224,26 @@ function renderMap(day){
 }
 
 
-/* ══ BANNER IMAGES (Unsplash free) ══ */
+/* ══ BANNER IMAGES (Wikimedia Commons CC) ══ */
 const DAY_BANNERS = [
   {// 1일차 — 아라시야마
-   src:"https://images.unsplash.com/photo-1624601573012-efb68931cc8f?w=900&q=80",
-   alt:"아라시야마 대나무숲",
+   src:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg/900px-Togetsukyo_bridge_in_Arashiyama-_I_did_not_walk_to_the_other_side_%2848743686522%29.jpg",
+   alt:"아라시야마 도게츠교",
    highlights:[{i:"🏠",t:"06:00 집 출발"},{i:"✈️",t:"09:15 KE2117 탑승"},{i:"🍜",t:"요시무라 소바"},{i:"♨️",t:"료칸 체크인"}]},
   {// 2일차 — 금각사
-   src:"https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=900&q=80",
+   src:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Kinkaku-ji_the_Golden_Temple_in_Kyoto_overlooking_the_lake_-_high_rez.JPG/900px-Kinkaku-ji_the_Golden_Temple_in_Kyoto_overlooking_the_lake_-_high_rez.JPG",
    alt:"금각사 킨카쿠지",
    highlights:[{i:"🥇",t:"금각사 관람"},{i:"🎋",t:"대나무숲 인력거"},{i:"🍃",t:"텐류지 정원"},{i:"🫕",t:"쇼라이안 두부"}]},
-  {// 3일차 — 기요미즈데라
-   src:"https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=900&q=80",
-   alt:"기요미즈데라 (청수사) 교토",
-   highlights:[{i:"⛩️",t:"기요미즈데라 (청수사)"},{i:"🪨",t:"산넨자카"},{i:"👘",t:"기온 하나미코지"},{i:"🏨",t:"온야도 노노 체크인"}]},
-  {// 4일차 — 철학의 길
-   src:"https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=900&q=80",
+  {// 3일차 — 은각사·철학의 길 (비)
+   src:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Tetsugaku_no_michi_-_DSC01221.jpg/900px-Tetsugaku_no_michi_-_DSC01221.jpg",
    alt:"교토 철학의 길",
    highlights:[{i:"🥈",t:"은각사"},{i:"🌸",t:"철학의 길 2km"},{i:"🏯",t:"난젠지 수로"},{i:"🍢",t:"준세이 유두부"}]},
+  {// 4일차 — 기요미즈데라·기온 (맑음)
+   src:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Kyoto-Kiyomizu_Temple-2.JPG/900px-Kyoto-Kiyomizu_Temple-2.JPG",
+   alt:"기요미즈데라 (청수사) 교토",
+   highlights:[{i:"⛩️",t:"기요미즈데라 (청수사)"},{i:"🪨",t:"산넨자카"},{i:"👘",t:"기온 하나미코지"},{i:"🍖",t:"하마무라 스키야키"}]},
   {// 5일차 — 니시키시장
-   src:"https://images.unsplash.com/photo-1444592411932-d82c7daea16e?w=900&q=80",
+   src:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Nishiki_Market_Kyoto_01.jpg/900px-Nishiki_Market_Kyoto_01.jpg",
    alt:"교토 니시키시장",
    highlights:[{i:"🛒",t:"니시키시장"},{i:"🛍️",t:"다카시마야"},{i:"🥩",t:"규카츠 카츠규"},{i:"✈️",t:"KE2120 귀국"}]},
 ];
@@ -1448,14 +1521,15 @@ const PERSONS = [
         {n:'선글라스',must:true},
         {n:'접이식 우산',must:true},
         {n:'마스크 (꽃가루 대비)',must:true},
-        {n:'보조배터리',must:true},
+        {n:'보조배터리 (기내 사용·충전 금지 / 직접 휴대만 가능 / 선반 보관 불가)',must:true},
+        {n:'보조배터리 절연용 투명비닐백 or 절연테이프',must:true},
         {n:'이어폰',must:false},
       ]},
       {cat:'📲 디지털·기기', items:[
         {n:'스마트폰 + 충전기',must:true},
         {n:'노트북 + 충전기',must:true},
         {n:'멀티 어댑터 (일본 110V)',must:true},
-        {n:'카메라 + 여분 배터리',must:false},
+        {n:'카메라 + 여분 배터리 (기내: 절연 조치 필수 / 직접 휴대)',must:false},
       ]},
     ]
   },
