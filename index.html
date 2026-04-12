@@ -738,7 +738,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
             <div class="ov-day-info">
               <div class="ov-day-date">4/16 (목)</div>
               <div class="ov-day-title">기요미즈데라 & 기온</div>
-              <div class="ov-day-desc">기요미즈데라 → 산넨자카 → 기온 → 하마무라</div>
+              <div class="ov-day-desc">기요미즈데라 → 산넨자카 → 기온 → 모리타야</div>
             </div>
             <div class="ov-day-arrow">›</div>
           </div>
@@ -760,7 +760,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">기쥬로 (2일차 저녁)</div><div class="ov-rs-sub">4/14 18:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">준세이 (3일차 점심)</div><div class="ov-rs-sub">4/15 14:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">가츠구라 산조 (3일차 저녁)</div><div class="ov-rs-sub">4/15 18:30 · 료칸 컨시어지 경유</div></div></div>
-          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">하마무라 (4일차 점심)</div><div class="ov-rs-sub">4/16 13:30 · 료칸 컨시어지 경유</div></div></div>
+          <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">모리타야 (4일차 점심)</div><div class="ov-rs-sub">4/16 13:30 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve todo"><span class="ov-rs-icon">!</span><div><div class="ov-rs-name">토미노조 (4일차 저녁)</div><div class="ov-rs-sub">4/16 18:00 · 료칸 컨시어지 경유</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">공항 전용 밴 (KIX → 료칸)</div><div class="ov-rs-sub">KKday #26KK233070636 · 4/13 디럭스 7인승 · 230,279원</div></div></div>
           <div class="ov-reserve done"><span class="ov-rs-icon">✓</span><div><div class="ov-rs-name">항공권 (대한항공 왕복 4인)</div><div class="ov-rs-sub">예약번호 EFMLWJ</div></div></div>
@@ -833,7 +833,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
       <div class="pack-grid" id="packGrid"></div>
     </div>
   </div>
-<div class="app-version">v2026.04.12f — 저녁 식후 일정 추가 (온천·키모노포레스트·폰토초·교토타워)</div>
+<div class="app-version">v2026.04.12g — 하마무라→모리타야 수정 · 이세탄 11층 스키야키</div>
 
 </div>
 
@@ -875,9 +875,9 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 ③ かつくら 三条店
 　4月15日（水）夕食　18:30頃　4名
 
-④ 浜むら（はまむら）
+④ モリタ屋（もりたや）
 　4月16日（木）昼食　13:30頃　4名
-　京都駅伊勢丹店
+　JR京都伊勢丹11階
 
 ⑤ 富之上（とみのじょう）
 　4月16日（木）夕食　18:00頃　4名
@@ -899,7 +899,7 @@ html,body{height:100%;font-family:'Noto Sans KR',sans-serif;background:var(--bg2
 ③ Katsukura Sanjo (かつくら三条店)
 　April 15 (Wed), dinner around 18:30, 4 people
 
-④ Hamamura (浜むら), Kyoto Stn Isetan
+④ Moritaya (モリタ屋), JR Kyoto Isetan 11F
 　April 16 (Thu), lunch around 13:30, 4 people
 
 ⑤ Tominojo (富之上)
@@ -922,7 +922,7 @@ Thank you so much for your help.</div>
 ③ 가츠구라 산조점 (かつくら三条店)
 　4월 15일 (수) 저녁 18:30경, 4명
 
-④ 하마무라 (浜むら) — 교토역 이세탄점
+④ 모리타야 (モリタ屋) — 교토역 이세탄 11층
 　4월 16일 (목) 점심 13:30경, 4명
 
 ⑤ 토미노조 (富之上)
@@ -942,7 +942,7 @@ const RESTAURANTS=[
   {id:"yoshimura",name:"아라시야마 요시무라",nameEn:"Arashiyama Yoshimura",color:"#c94070",day:"1일차",meal:"점심",menu:["메밀 소바★","덴푸라 소바","자루소바"],tip:"도게츠교 2층 창가 자리 요청. 오픈(11:00) 직후 입장 시 웨이팅 없음.",tel:"075-863-5700",reserve:"예약 불필요",rCls:"r-no",reserveHow:"현장 방문. 오픈 직후 권장.",gmaps:"https://www.google.com/maps/search/Arashiyama+Yoshimura+Kyoto"},
   {id:"shoraian",name:"쇼라이안",nameEn:"Shoraian",color:"#2563a8",day:"2일차",meal:"점심",menu:["쇼후 코스 7,000엔★","쇼라이 코스 5,500엔","유두부","두부 그라탱"],tip:"KKday 예약 MJG072344. 13:30 입장. 15분 지각 시 취소. 쇼후 코스 — 와규 미니 스테이크 + 유두부 무제한.",tel:"075-861-0123",reserve:"예약 완료 ✓",rCls:"r-ok",reserveHow:"KKday MJG072344. 모바일 바우처 제시.",gmaps:"https://www.google.com/maps/search/Shoraian+Arashiyama+Kyoto"},
   {id:"kijurou",name:"기쥬로",nameEn:"Kijurou",color:"#2563a8",day:"2일차",meal:"저녁",menu:["와규 리브로인 스테이크★","교토 와규 세트"],tip:"아라시야마 료칸 도보 5분. 와규 미디엄 추천.",tel:"050-5487-3279",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/14(화) 18:30 / 4명 · 비상 전화 050-5487-3279",gmaps:"https://www.google.com/maps/search/Kijurou+Arashiyama+Kyoto"},
-  {id:"hamamura",name:"하마무라",nameEn:"Hamamura",color:"#a05c10",day:"4일차",meal:"점심",menu:["와규 스키야키 코스★","샤부샤부 코스"],tip:"교토역 이세탄 내. 직원이 직접 구워줌. 달콤한 간장 육수에 생달걀 찍어 먹기.",tel:"075-211-7255",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/16(목) 13:30 / 4명 · 비상 전화 075-211-7255",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
+  {id:"moritaya",name:"모리타야",nameEn:"Moritaya",color:"#a05c10",day:"4일차",meal:"점심",menu:["와규 스키야키 코스★","샤부샤부 코스"],tip:"교토역 이세탄 11층. 1869년 창업 교토 최초 와규 전문점. 직원이 직접 구워줌.",tel:"075-342-0001",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/16(목) 13:30 / 4명 · 비상 전화 075-342-0001",gmaps:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
   {id:"katsukura",name:"가츠구라 산조",nameEn:"Katsukura Sanjo",color:"#2d7a4a",day:"3일차",meal:"저녁",menu:["히레카츠 정식★","로스카츠 정식"],tip:"참깨 직접 갈아서 소스 만드는 게 포인트! 히레카츠(안심)이 제일 부드러움. 밥·된장국·양배추 무제한.",tel:"075-212-3581",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/15(수) 18:30 / 4명 · 비상 전화 075-212-3581",gmaps:"https://maps.app.goo.gl/CKhUqcuELxL2BADy7"},
   {id:"junsei",name:"준세이",nameEn:"Junsei",color:"#2d7a4a",day:"3일차",meal:"점심",menu:["유두부 히토토오리 세트★","두부 코스"],tip:"에도 시대 건물에서 정원 보며 먹는 두부. 난젠지 도보 1분. 목요일 11:00~14:30.",tel:"075-761-2311",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/15(수) 14:30 / 4명 · 비상 전화 075-761-2311",gmaps:"https://www.google.com/maps/search/Junsei+Nanzenji+Kyoto"},
   {id:"tominojo",name:"토미노조",nameEn:"Tominojo",color:"#a05c10",day:"4일차",meal:"저녁",menu:["교토 와규 샤부샤부★","와규 스키야키"],tip:"고기 무게 직접 보여주며 투명 서비스. 얇게 썬 와규를 육수에 살짝 담가 먹는 방식.",tel:"080-3759-1757",reserve:"컨시어지 경유",rCls:"r-req",reserveHow:"료칸 컨시어지 경유 · 4/16(목) 18:00 / 4명 · 비상 전화 080-3759-1757",gmaps:"https://www.google.com/maps/search/Tominojo+Kyoto"},
@@ -965,7 +965,7 @@ const DAYS=[
     {lat:35.0136,lng:135.6773,time:"13:30",type:"meal",name:"아라시야마 요시무라",note:"도게츠교 전망 소바 · 료칸 도보 5분",tags:["점심","예약불필요"],rid:"yoshimura"},
     {lat:35.0129,lng:135.6778,time:"14:30",type:"sight",name:"도게츠교 강변 산책",note:"평지 ✓",tags:["관광"]},
     {lat:35.0113,lng:135.6771,time:"15:00",type:"hotel",name:"체크인 — 료칸 Hanaikada",note:"유카타 · 온천 · 휴식",tags:["숙소","예약완료"]},
-    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 준세이 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 하마무라 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
+    {lat:35.0113,lng:135.6771,time:"15:30",type:"hotel",name:"료칸 컨시어지에 식당 예약 부탁",note:"① 기쥬로 (2일차 저녁 4/14) · ② 준세이 (3일차 점심 4/15) · ③ 가츠구라 산조 (3일차 저녁 4/15) · ④ 모리타야 (4일차 점심 4/16) · ⑤ 토미노조 (4일차 저녁 4/16) — 4인 기준",tags:["예약필요"],modal:"concierge"},
     {lat:35.0113,lng:135.6771,time:"18:00",type:"meal",name:"료칸 가이세키",note:"객실 또는 개별실",tags:["저녁","포함"]},
     {lat:35.0113,lng:135.6771,time:"19:30",type:"hotel",name:"료칸 노천 온천",note:"밤 온천 — 분위기 최고",tags:["휴식"]},
    ],
@@ -1026,14 +1026,14 @@ const DAYS=[
     {lat:34.9967,lng:135.7810,time:"11:00",type:"sight",name:"산넨자카 · 니넨자카",note:"마른 돌계단 — 어제보다 안전",tags:["관광"]},
     {lat:35.0038,lng:135.7750,time:"12:00",type:"sight",name:"기온 하나미코지",note:"평지 ✓",tags:["관광"]},
     {lat:35.0037,lng:135.7786,time:"12:30",type:"sight",name:"야사카 신사",note:"무료 입장",tags:["관광"]},
-    {lat:34.9890,lng:135.7623,time:"13:30",type:"meal",name:"하마무라",note:"스키야키 코스 · 교토역 이세탄 · 컨시어지 예약",tags:["점심","예약필요"],rid:"hamamura"},
+    {lat:34.9890,lng:135.7623,time:"13:30",type:"meal",name:"모리타야",note:"스키야키 코스 · 교토역 이세탄 11층 · 컨시어지 예약",tags:["점심","예약필요"],rid:"moritaya"},
     {lat:34.9890,lng:135.7623,time:"15:00",type:"hotel",name:"호텔 복귀 — 온천·휴식",note:"",tags:["휴식"]},
     {lat:35.0087,lng:135.7684,time:"18:00",type:"meal",name:"토미노조",note:"와규 샤부샤부 · 컨시어지 예약",tags:["저녁","예약권장"],rid:"tominojo"},
     {lat:34.9875,lng:135.7592,time:"19:30",type:"sight",name:"교토타워 전망대",note:"호텔 도보 5분 · 야경 360도 · 입장료 900엔 · 엘리베이터",tags:["관광"]},
    ],
    meals:[
     {tp:"조식",n:"호텔 뷔페",m:"",s:"ok",st:"포함"},
-    {tp:"점심",n:"하마무라",m:"스키야키 코스",s:"req",st:"컨시어지 경유",rid:"hamamura",gm:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
+    {tp:"점심",n:"모리타야",m:"스키야키 코스",s:"req",st:"컨시어지 경유",rid:"moritaya",gm:"https://maps.app.goo.gl/Jqb5583dFuDXZfGLA"},
     {tp:"저녁",n:"토미노조",m:"와규 샤부샤부",s:"req",st:"컨시어지 경유",rid:"tominojo",gm:"https://www.google.com/maps/search/Tominojo+Kyoto"},
    ]},
   {n:5,date:"4/17",dow:"금",title:"니시키시장 & 귀국",color:"#1a6e6e",
@@ -1251,7 +1251,7 @@ const DAY_BANNERS = [
   {// 4일차 — 기요미즈데라·기온 (맑음)
    src:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Kyoto-Kiyomizu_Temple-2.JPG/900px-Kyoto-Kiyomizu_Temple-2.JPG",
    alt:"기요미즈데라 (청수사) 교토",
-   highlights:[{i:"⛩️",t:"기요미즈데라 (청수사)"},{i:"🪨",t:"산넨자카"},{i:"👘",t:"기온 하나미코지"},{i:"🍖",t:"하마무라 스키야키"}]},
+   highlights:[{i:"⛩️",t:"기요미즈데라 (청수사)"},{i:"🪨",t:"산넨자카"},{i:"👘",t:"기온 하나미코지"},{i:"🍖",t:"모리타야 스키야키"}]},
   {// 5일차 — 니시키시장
    src:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Nishiki_Market_Kyoto_01.jpg/900px-Nishiki_Market_Kyoto_01.jpg",
    alt:"교토 니시키시장",
